@@ -1,0 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "404": {
+      "type": "404",
+      "settings": {
+        "text_heading": "Page Not Found",
+        "text_paragraph": "The page you are looking for doesn't exist or has been moved",
+        "text_button_text": "Retour à l'accueil"
+      }
+    }
+  },
+  "layout": "theme",
+  "wrapper": "main.main-wrapper",
+  "order": [
+    "404"
+  ]
+}

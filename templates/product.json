@@ -1,0 +1,72 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "product_hero_back_in_stock_eUVaHg": {
+      "type": "product_hero_back_in_stock",
+      "name": "Product Hero Back in Stock",
+      "settings": {
+        "show_back_in_stock_form": true,
+        "back_in_stock_title": "Soyez notifié(e) du retour en stock",
+        "back_in_stock_message": "Laissez votre email et nous vous préviendrons dès que ce produit sera à nouveau disponible."
+      }
+    },
+    "product_details_accordion_8fNf6L": {
+      "type": "product-details-accordion",
+      "name": "Détails produit accordéon",
+      "settings": {
+        "details_title": "Détails produit",
+        "matiere_title": "Matière & composition",
+        "livraison_title": "Livraison & retours",
+        "entretien_title": "Conseils d'entretien"
+      }
+    },
+    "judgeme_carousel_xXdPGN": {
+      "type": "judgeme-carousel",
+      "name": "Judge.me Reviews Carousel",
+      "settings": {
+        "title": "Let customers speak for us",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "3_column_DwLCVV": {
+      "type": "3-column",
+      "name": "3-column",
+      "settings": {
+        "main_title": "Pourquoi choisir la barefoot",
+        "image_1": "shopify://shop_images/Souplesse_legerete.jpg",
+        "heading_1": "Souplesse & légèreté",
+        "paragraph_1": "Une semelle fine et flexible qui accompagne chaque mouvement, laissant le pied ressentir le sol. Idéal pour un développement naturel et un confort tout au long de la journée.",
+        "image_2": "shopify://shop_images/lrge_toe_box.jpg",
+        "heading_2": "Large toe-box",
+        "paragraph_2": "Une forme respectueuse qui laisse aux orteils toute la place pour s’écarter, s’ancrer et se muscler. Pas de compression, juste la liberté de grandir naturellement.",
+        "image_3": "shopify://shop_images/Zero-drop_2.jpg",
+        "heading_3": "Zéro drop",
+        "paragraph_3": "Une semelle plate, sans différence de hauteur entre talon et avant-pied, qui préserve l’alignement naturel et soutient une posture saine dès les premiers pas."
+      }
+    },
+    "recommended_products": {
+      "type": "recommended_products",
+      "settings": {
+        "text_heading": "Vous aimerez aussi"
+      }
+    }
+  },
+  "layout": "theme",
+  "wrapper": "main.main-wrapper",
+  "order": [
+    "product_hero_back_in_stock_eUVaHg",
+    "product_details_accordion_8fNf6L",
+    "judgeme_carousel_xXdPGN",
+    "3_column_DwLCVV",
+    "recommended_products"
+  ]
+}
