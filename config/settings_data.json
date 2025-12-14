@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "favicon": "shopify://shop_images/favicon_faroush32_bb45b5ab-2214-4ad9-91d6-b86fb207d552.png",
+    "apple_touch_icon": "shopify://shop_images/favicon_faroush120.png",
+    "sections": {
+      "header-announcement": {
+        "type": "header-announcement",
+        "blocks": {
+          "social_media_icon_jX7hxH": {
+            "type": "social-media-icon",
+            "settings": {
+              "url_link": "https://www.instagram.com/faroush_shoes/?hl=fr",
+              "image_image": "shopify://shop_images/Insta_Clair.svg"
+            }
+          },
+          "social_media_icon_MDxAGR": {
+            "type": "social-media-icon",
+            "settings": {
+              "url_link": "https://www.tiktok.com/@faroush.shoes",
+              "image_image": "shopify://shop_images/Tiktok_Clair.svg"
+            }
+          }
+        },
+        "block_order": [
+          "social_media_icon_jX7hxH",
+          "social_media_icon_MDxAGR"
+        ],
+        "settings": {
+          "url_link": "shopify://collections",
+          "text_text": "Jusqu'au 1er Décembre, profitez de la livraison gratuite!"
+        }
+      },
+      "sticky-add-to-cart": {
+        "type": "sticky-add-to-cart",
+        "settings": {}
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "2153490007123654574": {
+        "type": "shopify://apps/consentmo-gdpr/blocks/gdpr_cookie_consent/4fbe573f-a377-4fea-9801-3ee0858cae41",
+        "disabled": false,
+        "settings": {}
+      },
+      "15683396631634586217": {
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": true,
+        "settings": {
+          "button_color": "#6e612b",
+          "secondary_color": "#ffffff",
+          "ternary_color": "#bdbf85",
+          "button_icon": "chat_bubble",
+          "button_text": "chat_with_us",
+          "button_horizontal_position": "bottom_right",
+          "button_vertical_position": "higher",
+          "greeting_message": "Bonjour, nous serions ravis de vous aider si vous avez la moindre question. Notre équipe se tient à votre disposition"
+        }
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "14926935257333466880": {
+        "type": "shopify://apps/geos-geolocation/blocks/location-selector-core/3cd5a431-7aea-4ecd-a807-59b3321c525b",
+        "disabled": false,
+        "settings": {
+          "body_font": "sans_serif_n4"
+        }
+      }
+    }
+  },
+  "platform_customizations": {
+    "custom_css": []
+  }
+}
