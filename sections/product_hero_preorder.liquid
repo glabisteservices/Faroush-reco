@@ -742,12 +742,11 @@
   }
 </style>
 
-<!-- MODIFICATION PRINCIPALE : Ajout de x-data="productForm()" sur le div principal -->
+<!-- Section principale avec Alpine.js -->
 <div class="product-header_component" x-data="productForm()">
-  <!-- MODIFICATION : Suppression du formulaire, remplacé par un div -->
   <div class="product-header_layout">
     
-    <!-- Gallery Section - INCHANGÉ -->
+    <!-- Gallery Section -->
     <div class="product-gallery-container">
       <div class="product-gallery-main" id="gallery-main">
         <div class="gallery-slides-container" id="slides-container">
@@ -802,10 +801,10 @@
     <!-- Product Details Section -->
     <div class="product-header_product-details">
       
-      <!-- Product Title - INCHANGÉ -->
+      <!-- Product Title -->
       <h1 class="product-title product-main-title">{{ product.title }}</h1>
       
-      <!-- Price - MODIFICATION : Ajout des directives Alpine.js -->
+      <!-- Price -->
       <div class="product-price-wrapper">
         <span class="product-price" x-text="formatPrice(selectedVariant.price)">{{ product.selected_or_first_available_variant.price | money }}</span>
         <span class="product-compare-price" 
@@ -814,12 +813,12 @@
         <span class="product-item_tag" x-show="selectedVariant.compare_at_price > selectedVariant.price">Sale</span>
       </div>
       
-      <!-- Product Description - INCHANGÉ -->
+      <!-- Product Description -->
       {% if product.description != blank %}
         <div class="product-description">{{ product.description }}</div>
       {% endif %}
       
-      <!-- Variant Selection - MODIFICATION : Ajout des directives Alpine.js -->
+      <!-- Variant Selection -->
       {% unless product.has_only_default_variant %}
         {% for option in product.options_with_values %}
           <div class="variant-selector">
@@ -833,7 +832,6 @@
             {% else %}
               <label class="variant-label">{{ option.name }}</label>
             {% endif %}
-            <!-- MODIFICATION : Ajout de x-model et @change -->
             <select class="variant-select" 
                     x-model="selectedOptions[{{ forloop.index0 }}]"
                     @change="updateSelectedVariant()">
@@ -845,7 +843,7 @@
         {% endfor %}
       {% endunless %}
       
-      <!-- Shipping Info - MODIFICATION : Livraison statique -->
+      <!-- Shipping Info -->
       <div class="shipping-info">
         <svg class="shipping-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -859,7 +857,7 @@
         </span>
       </div>
       
-      <!-- Add to Cart Section - MODIFICATION PRINCIPALE : Version Alpine.js avec PRÉ-COMMANDER -->
+      <!-- Add to Cart Section -->
       <div class="add-to-cart-section">
         <button type="button" 
                 class="add-to-cart-button" 
@@ -871,7 +869,7 @@
           <span x-show="isLoading">Ajout en cours...</span>
         </button>
         
-        <!-- NOUVEAU : Message de feedback -->
+        <!-- Message de feedback -->
         <div x-show="message.show" 
              x-transition
              class="add-to-cart-message"
@@ -880,7 +878,7 @@
         </div>
       </div>
 
-      <!-- Product Pictos Section - INCHANGÉ -->
+      <!-- Product Pictos Section -->
       <div class="product-pictos-container">
         {% for block in section.blocks %}
           {% if block.type == "picto-produit" %}
@@ -913,7 +911,7 @@
     </div>
   </div>
 
-  <!-- Popup Guide des tailles - INCHANGÉ -->
+  <!-- Popup Guide des tailles -->
   <div class="size-guide-overlay" id="sizeGuideOverlay" onclick="closeSizeGuide(event)">
     <div class="size-guide-popup" onclick="event.stopPropagation()">
       <button class="size-guide-close" onclick="closeSizeGuide()">&times;</button>
@@ -925,7 +923,7 @@
 </div>
 
 <script>
-// NOUVEAU : Alpine.js Component pour le formulaire produit
+// Alpine.js Component pour le formulaire produit
 document.addEventListener('alpine:init', () => {
   Alpine.data('productForm', () => ({
     // État initial
@@ -977,7 +975,7 @@ document.addEventListener('alpine:init', () => {
       window.history.replaceState({}, '', newUrl);
     },
 
-    // FONCTION PRINCIPALE : Ajout au panier
+    // FONCTION PRINCIPALE : Ajout au panier avec redirection vers /cart
     async addToCart() {
       if (!this.selectedVariant.available || this.isLoading) {
         return;
@@ -1005,12 +1003,13 @@ document.addEventListener('alpine:init', () => {
         const result = await response.json();
 
         if (response.ok) {
-          // Succès
-          this.showMessage('Produit ajouté au panier !', 'success');
-          
-          // IMPORTANT : Déclencher les événements pour le mini-cart
+          // Succès - Mise à jour du compteur puis redirection vers la page panier
           this.$dispatch('cartupdated');
-          this.$dispatch('toggleminicart');
+          
+          // Redirection vers la page panier après un court délai
+          setTimeout(() => {
+            window.location.href = '/cart';
+          }, 300);
           
         } else {
           // Erreur du serveur
@@ -1020,7 +1019,6 @@ document.addEventListener('alpine:init', () => {
       } catch (error) {
         console.error('Erreur lors de l\'ajout au panier:', error);
         this.showMessage('Erreur lors de l\'ajout au panier. Veuillez réessayer.', 'error');
-      } finally {
         this.isLoading = false;
       }
     },
@@ -1046,11 +1044,11 @@ document.addEventListener('alpine:init', () => {
   }));
 });
 
-// INCHANGÉ : Variables globales pour la galerie
+// Variables globales pour la galerie
 let currentImageIndex = 0;
 const totalImages = {{ product.media.size }};
 
-// Variables pour le swipe mobile - INCHANGÉ
+// Variables pour le swipe mobile
 let startX = 0;
 let startY = 0;
 let currentX = 0;
@@ -1058,12 +1056,12 @@ let currentY = 0;
 let isDragging = false;
 let isSwipeActive = false;
 
-// Fonction pour déterminer si on est sur mobile - INCHANGÉ
+// Fonction pour déterminer si on est sur mobile
 function isMobile() {
   return window.innerWidth <= 768;
 }
 
-// Navigation des images - INCHANGÉ
+// Navigation des images
 function nextImage() {
   currentImageIndex = (currentImageIndex + 1) % totalImages;
   updateGalleryDisplay();
@@ -1118,7 +1116,7 @@ function updateGalleryDisplay() {
   }
 }
 
-// Gestion du swipe sur mobile - INCHANGÉ
+// Gestion du swipe sur mobile
 function initializeSwipe() {
   const galleryMain = document.getElementById('gallery-main');
   
@@ -1182,7 +1180,7 @@ function handleTouchEnd(e) {
   isSwipeActive = false;
 }
 
-// Fonctions pour le guide des tailles - INCHANGÉ
+// Fonctions pour le guide des tailles
 function openSizeGuide() {
   const overlay = document.getElementById('sizeGuideOverlay');
   const content = document.getElementById('sizeGuideContent');
@@ -1220,12 +1218,12 @@ function closeSizeGuide(event) {
   }
 }
 
-// Initialisation - MODIFIÉ : Suppression des fonctions devenues inutiles
+// Initialisation
 document.addEventListener('DOMContentLoaded', function() {
   updateGalleryDisplay();
   initializeSwipe();
   
-  // Protection renforcée pour le titre du produit - INCHANGÉ
+  // Protection renforcée pour le titre du produit
   const protectTitle = () => {
     const titles = document.querySelectorAll('.product-header_component .product-title, .product-header_component .product-main-title, .product-header_component h1.product-title');
     titles.forEach(title => {
@@ -1252,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
 
-  // Fonction pour ajuster les images des pictos sur mobile - INCHANGÉ
+  // Fonction pour ajuster les images des pictos sur mobile
   const adjustPictosOnMobile = () => {
     if (window.innerWidth <= 768) {
       // Sélectionner toutes les images dans les pictos
@@ -1281,7 +1279,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  // Fonction pour forcer le style flex sur le wrapper du guide des tailles - INCHANGÉ
+  // Fonction pour forcer le style flex sur le wrapper du guide des tailles
   const fixSizeGuideLayout = () => {
     const wrappers = document.querySelectorAll('.variant-label-row');
     wrappers.forEach(wrapper => {
@@ -1292,7 +1290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
   
-  // Exécuter immédiatement et à intervalles - INCHANGÉ
+  // Exécuter immédiatement et à intervalles
   protectTitle();
   adjustPictosOnMobile();
   fixSizeGuideLayout();
@@ -1315,12 +1313,12 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(adjustPictosOnMobile, 2000);
   setTimeout(fixSizeGuideLayout, 2000);
   
-  // Observer continu - INCHANGÉ
+  // Observer continu
   setInterval(protectTitle, 1000);
   setInterval(adjustPictosOnMobile, 1000);
   setInterval(fixSizeGuideLayout, 1000);
   
-  // Debug : surveiller les scroll automatiques non désirés - INCHANGÉ
+  // Debug : surveiller les scroll automatiques non désirés
   if (isMobile()) {
     let isUserScrolling = false;
     
@@ -1337,7 +1335,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: true });
   }
   
-  // Re-calculer lors du redimensionnement de la fenêtre - INCHANGÉ
+  // Re-calculer lors du redimensionnement de la fenêtre
   window.addEventListener('resize', function() {
     setTimeout(() => {
       updateGalleryDisplay();
