@@ -1,0 +1,164 @@
+<div class="judgeme-product-reviews-section">
+  <div class="page-width">
+    <!-- Start of Judge.me code --> 
+    <div style='clear:both'></div> 
+    <div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}' data-auto-install='false'> 
+      {{ product.metafields.judgeme.widget }} 
+    </div> 
+    <!-- End of Judge.me code -->
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Judge.me Product Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f5f2d9"
+    },
+    {
+      "type": "range",
+      "id": "background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Background Opacity",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#6e612b"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Judge.me Product Reviews"
+    }
+  ],
+  "templates": ["product"]
+}
+{% endschema %}
+
+<style>
+  {% assign bg_color = section.settings.background_color | remove: '#' %}
+  {% assign opacity = section.settings.background_opacity | divided_by: 100.0 %}
+  
+  .judgeme-product-reviews-section {
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color | color_modify: 'alpha', opacity }};
+    overflow: hidden;
+    clear: both;
+  }
+
+  .judgeme-product-reviews-section .page-width {
+    position: relative;
+    z-index: 1;
+    text-align: {{ section.settings.alignment }};
+  }
+
+  #judgeme_product_reviews.jdgm-widget.jdgm-review-widget {
+    color: {{ section.settings.text_color }};
+    width: 100%;
+  }
+
+  /* NE TOUCHER QU'AUX TEXTES - Laisser les étoiles intactes */
+  .judgeme-product-reviews-section .jdgm-rev__body,
+  .judgeme-product-reviews-section .jdgm-rev__title,
+  .judgeme-product-reviews-section .jdgm-rev__text,
+  .judgeme-product-reviews-section .jdgm-rev__buyer-name,
+  .judgeme-product-reviews-section .jdgm-rev__timestamp,
+  .judgeme-product-reviews-section .jdgm-verified-badge,
+  .judgeme-product-reviews-section .jdgm-write-rev-link,
+  .judgeme-product-reviews-section .jdgm-paginate__page,
+  .judgeme-product-reviews-section .jdgm-histogram__row-title,
+  .judgeme-product-reviews-section .jdgm-histogram__row-num,
+  .judgeme-product-reviews-section .jdgm-spinner,
+  .judgeme-product-reviews-section p,
+  .judgeme-product-reviews-section span:not([class*="jdgm-star"]),
+  .judgeme-product-reviews-section div:not([class*="jdgm-star"]) > span:not([class*="jdgm-star"]),
+  .judgeme-product-reviews-section a,
+  .judgeme-product-reviews-section button,
+  .judgeme-product-reviews-section input,
+  .judgeme-product-reviews-section textarea {
+    font-family: 'Karla', sans-serif !important;
+  }
+
+  /* Appliquer la couleur aux textes */
+  .judgeme-product-reviews-section .jdgm-rev__body,
+  .judgeme-product-reviews-section .jdgm-rev__title,
+  .judgeme-product-reviews-section .jdgm-rev__text,
+  .judgeme-product-reviews-section .jdgm-rev__buyer-name {
+    color: {{ section.settings.text_color }} !important;
+  }
+</style>

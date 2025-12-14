@@ -1,0 +1,527 @@
+<style>
+  .centre {
+    text-align: center
+  }
+  @media screen and (max-width: 767px) {
+    .centre {
+      font-size: 2rem;
+       text-align: left
+    }
+  }
+  @media screen and (max-width: 479px) {
+    .centre {
+      font-size: 1.9rem
+    }
+  }
+  .prenom-personne {
+    margin-bottom: 20px;
+     font-family: Karla;
+     color: #6e612b;
+     font-size: 1.3rem;
+     text-transform: uppercase
+  }
+  .temoignage-navigation {
+    display: flex;
+     margin-top: 20px;
+     justify-content: space-between;
+     align-items: center;
+  }
+  .bouton {
+    margin-left: 20px;
+  }
+  @media screen and (max-width: 767px) {
+    .bouton {
+      margin-left: 10px;
+    }
+  }
+  .slider-container {
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    position: relative;
+    touch-action: pan-y; /* Permet le scroll vertical mais gère le swipe horizontal */
+  }
+  .temoignage-slider {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    gap: 20px;
+    padding-left: 20px;
+  }
+  @media screen and (max-width: 767px) {
+    .temoignage-slider {
+      padding-left: 10px;
+    }
+  }
+  .temoignage-item {
+    width: 30%;
+    min-width: 300px;
+    height: auto; /* Changé de 300px fixe à auto */
+    min-height: 250px; /* Hauteur minimum pour éviter les blocs trop petits */
+    padding: 20px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background-color: #f5f2d9;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  @media screen and (max-width: 1024px) {
+    .temoignage-item {
+      width: 45%;
+      min-width: 280px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .temoignage-item {
+      width: 70%;
+      min-width: 250px;
+    }
+  }
+  @media screen and (max-width: 479px) {
+    .temoignage-item {
+      width: 70%;
+      min-width: 280px;
+    }
+  }
+  .temoignages {
+    padding: 20px;
+  }
+  @media screen and (max-width: 767px) {
+    .temoignages {
+      padding: 20px 10px;
+    }
+  }
+  .temoignages-title {
+    font-family: Karla;
+     color: #6e612b;
+     font-size: 2.8rem;
+     line-height: 1;
+     font-weight: 600;
+     margin-bottom: 40px;
+     text-align: center;
+  }
+  @media screen and (max-width: 767px) {
+    .temoignages-title {
+      font-size: 2.2rem;
+      text-align: center;
+    }
+  }
+  .button-4 {
+    padding: 1rem 1.75rem;
+     border: 1px solid #6e612b;
+     border-radius: 0.5rem;
+     background-color: transparent;
+     transition: background-color 200ms ease;
+     font-family: Karla;
+     color: #6e612b;
+     font-size: 0.9375rem;
+     line-height: 1;
+     font-weight: 600;
+     text-align: center;
+     letter-spacing: -0.15px;
+     text-transform: uppercase;
+     text-decoration: none;
+     display: inline-block;
+     cursor: pointer;
+     box-shadow: none;
+  }
+  .button-4:hover {
+    background-color: #6e612b;
+    color: white;
+  }
+  @media screen and (max-width: 479px) {
+    .button-4 {
+      width: 100%}
+  }
+  .paragraph {
+    font-family: Karla;
+     color: #6e612b;
+     line-height: 1.5;
+  }
+  .arrow-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 200ms ease;
+  }
+  .arrow-btn:hover {
+    background-color: rgba(110, 97, 43, 0.1);
+  }
+  .arrow-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    display: none; /* Cache les boutons disabled dans la boucle infinie */
+  }
+  .arrow-btn img {
+    width: 24px;
+    height: 24px;
+  }
+  .precedent img {
+    transform: rotate(180deg);
+  }
+  .arrows {
+    display: flex;
+    gap: 10px;
+  }
+  @media screen and (max-width: 767px) {
+    .arrows {
+      display: none;
+    }
+  }
+</style>
+
+<div class="temoignages">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when '@app' %}
+        {% render block %}
+      {% when 'titre' %}
+        <h1 class="temoignages-title">
+          {{ block.settings.text_heading }}
+        </h1>
+      {% when 'temoignage-item' %}
+        <!-- Les items seront traités dans le slider ci-dessous -->
+    {% endcase %}
+  {% endfor %}
+
+  {% assign testimonial_blocks = section.blocks | where: 'type', 'temoignage-item' %}
+  {% if testimonial_blocks.size > 0 %}
+    <div class="slider-container">
+      <div class="temoignage-slider" id="temoignage-slider-{{ section.id }}">
+        {% for block in testimonial_blocks %}
+          <div class="temoignage-item">
+            <div class="prenom-personne">
+              {{ block.settings.text_text }}
+            </div>
+            <p class="paragraph">
+              {{ block.settings.text_paragraph }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="temoignage-navigation">
+      <div class="bouton">
+        <a href="{{ section.settings.review_link | default: '#' }}" class="button-4">
+          Laissez-nous un avis
+        </a>
+      </div>
+      <div class="arrows">
+        <button class="arrow-btn precedent" onclick="moveSlider('{{ section.id }}', -1)">
+          <img alt="Précédent" src="https://cdn.prod.website-files.com/689370215f6dcea901024517/689b442bf6f75cb32f16747b_arrow_forward_24dp_6E612B_FILL0_wght400_GRAD0_opsz24.svg" loading="lazy">
+        </button>
+        <button class="arrow-btn suivant" onclick="moveSlider('{{ section.id }}', 1)">
+          <img alt="Suivant" src="https://cdn.prod.website-files.com/689370215f6dcea901024517/689b442bf6f75cb32f16747b_arrow_forward_24dp_6E612B_FILL0_wght400_GRAD0_opsz24.svg" loading="lazy">
+        </button>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sliders = {};
+  
+  function equalizeHeights(sectionId) {
+    const slider = document.getElementById('temoignage-slider-' + sectionId);
+    if (!slider) return;
+    
+    const items = slider.querySelectorAll('.temoignage-item');
+    if (items.length === 0) return;
+    
+    // Reset toutes les hauteurs pour mesurer la hauteur naturelle
+    items.forEach(item => {
+      item.style.height = 'auto';
+    });
+    
+    // Trouver la hauteur maximum
+    let maxHeight = 0;
+    items.forEach(item => {
+      const itemHeight = item.offsetHeight;
+      if (itemHeight > maxHeight) {
+        maxHeight = itemHeight;
+      }
+    });
+    
+    // Appliquer la hauteur maximum à tous les items
+    items.forEach(item => {
+      item.style.height = maxHeight + 'px';
+    });
+  }
+  
+  function initSlider(sectionId) {
+    const slider = document.getElementById('temoignage-slider-' + sectionId);
+    if (!slider) return;
+    
+    const items = slider.querySelectorAll('.temoignage-item');
+    if (items.length === 0) return;
+    
+    // Égaliser les hauteurs en premier
+    equalizeHeights(sectionId);
+    
+    // Calculer la largeur d'un item en fonction du viewport
+    const containerWidth = window.innerWidth;
+    let itemWidthPercent;
+    let scrollDistance; // Distance de défilement
+    
+    if (containerWidth > 1024) {
+      itemWidthPercent = 30;
+      scrollDistance = (containerWidth * itemWidthPercent / 100) + 20; // Un item complet + gap
+    } else if (containerWidth > 767) {
+      itemWidthPercent = 45;
+      scrollDistance = (containerWidth * itemWidthPercent / 100) + 20; // Un item complet + gap
+    } else {
+      itemWidthPercent = 70;
+      scrollDistance = containerWidth * 0.6; // Défilement plus fluide sur mobile (60% de l'écran)
+    }
+    
+    const totalItems = items.length;
+    
+    sliders[sectionId] = {
+      slider: slider,
+      currentIndex: 0,
+      totalItems: totalItems,
+      itemWidth: scrollDistance, // Utilise la distance de scroll au lieu de la largeur réelle
+      container: slider.parentElement
+    };
+    
+    // Ajouter la navigation tactile
+    initTouchNavigation(sectionId);
+    updateSliderButtons(sectionId);
+  }
+  
+  function initTouchNavigation(sectionId) {
+    const sliderData = sliders[sectionId];
+    if (!sliderData) return;
+    
+    const container = sliderData.container;
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+    let hasMoved = false;
+    
+    // Touch events
+    container.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = true;
+      hasMoved = false;
+    }, { passive: true });
+    
+    container.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const diffX = Math.abs(currentX - startX);
+      const diffY = Math.abs(currentY - startY);
+      
+      // Si le mouvement horizontal est plus important que vertical
+      if (diffX > diffY && diffX > 10) {
+        e.preventDefault(); // Empêche le scroll de la page
+        hasMoved = true;
+      }
+    }, { passive: false });
+    
+    container.addEventListener('touchend', function(e) {
+      if (!isDragging || !hasMoved) return;
+      
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      const threshold = window.innerWidth <= 767 ? 30 : 50; // Seuil plus bas sur mobile
+      
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+          // Swipe vers la gauche = slide suivant
+          moveSlider(sectionId, 1);
+        } else {
+          // Swipe vers la droite = slide précédent
+          moveSlider(sectionId, -1);
+        }
+      }
+      
+      isDragging = false;
+      hasMoved = false;
+    }, { passive: true });
+    
+    // Mouse events pour le desktop (optionnel)
+    let mouseStartX = 0;
+    let isMouseDragging = false;
+    
+    container.addEventListener('mousedown', function(e) {
+      mouseStartX = e.clientX;
+      isMouseDragging = true;
+      e.preventDefault();
+    });
+    
+    container.addEventListener('mousemove', function(e) {
+      if (!isMouseDragging) return;
+      e.preventDefault();
+    });
+    
+    container.addEventListener('mouseup', function(e) {
+      if (!isMouseDragging) return;
+      
+      const diffX = mouseStartX - e.clientX;
+      const threshold = 50;
+      
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+          moveSlider(sectionId, 1);
+        } else {
+          moveSlider(sectionId, -1);
+        }
+      }
+      
+      isMouseDragging = false;
+    });
+    
+    // Empêcher la sélection de texte pendant le drag
+    container.addEventListener('selectstart', function(e) {
+      if (isMouseDragging) e.preventDefault();
+    });
+  }
+  
+  function updateSliderButtons(sectionId) {
+    const sliderData = sliders[sectionId];
+    if (!sliderData) return;
+    
+    // Dans une boucle infinie, les boutons ne sont jamais désactivés
+    const prevBtn = document.querySelector(`[onclick*="${sectionId}"][onclick*="-1"]`);
+    const nextBtn = document.querySelector(`[onclick*="${sectionId}"][onclick*="1"]`);
+    
+    if (prevBtn) prevBtn.disabled = false;
+    if (nextBtn) nextBtn.disabled = false;
+  }
+  
+  window.moveSlider = function(sectionId, direction) {
+    const sliderData = sliders[sectionId];
+    if (!sliderData) return;
+    
+    // Calculer le nouvel index avec boucle infinie
+    let newIndex = sliderData.currentIndex + direction;
+    
+    // Pour mobile, on calcule différemment pour permettre un défilement plus fluide
+    const isMobile = window.innerWidth <= 767;
+    
+    if (isMobile) {
+      // Sur mobile, on limite le défilement pour voir les éléments partiels
+      const maxIndex = Math.max(0, sliderData.totalItems - 1);
+      
+      if (newIndex < 0) {
+        newIndex = maxIndex;
+      } else if (newIndex > maxIndex) {
+        newIndex = 0;
+      }
+    } else {
+      // Desktop garde la boucle infinie normale
+      if (newIndex < 0) {
+        newIndex = sliderData.totalItems - 1;
+      } else if (newIndex >= sliderData.totalItems) {
+        newIndex = 0;
+      }
+    }
+    
+    sliderData.currentIndex = newIndex;
+    const translateX = -newIndex * sliderData.itemWidth;
+    sliderData.slider.style.transform = `translateX(${translateX}px)`;
+    
+    updateSliderButtons(sectionId);
+  };
+  
+  // Initialize all sliders on page
+  const allSliders = document.querySelectorAll('[id^="temoignage-slider-"]');
+  allSliders.forEach(slider => {
+    const sectionId = slider.id.replace('temoignage-slider-', '');
+    initSlider(sectionId);
+  });
+  
+  // Reinitialize on window resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      allSliders.forEach(slider => {
+        const sectionId = slider.id.replace('temoignage-slider-', '');
+        equalizeHeights(sectionId); // Recalculer les hauteurs
+        initSlider(sectionId);
+      });
+    }, 250);
+  });
+});
+</script>
+
+{% schema %}
+{
+  "tag": "section",
+  "name": "Témoignages",
+  "class": "temoignages",
+  "settings": [
+    {
+      "id": "review_link",
+      "type": "url",
+      "label": "Lien du bouton avis",
+      "info": "URL vers laquelle rediriger quand on clique sur 'Laissez-nous un avis'"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Titre",
+      "type": "titre",
+      "limit": 1,
+      "settings": [
+        {
+          "id": "text_heading",
+          "type": "text",
+          "label": "Titre",
+          "default": "Nos témoignages"
+        }
+      ]
+    },
+    {
+      "name": "Témoignage",
+      "type": "temoignage-item",
+      "settings": [
+        {
+          "id": "text_text",
+          "type": "text",
+          "label": "Prénom de la personne",
+          "default": "Marie D."
+        },
+        {
+          "id": "text_paragraph",
+          "type": "textarea",
+          "label": "Témoignage",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat."
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Témoignages",
+      "category": "Contenu",
+      "blocks": [
+        {
+          "type": "titre"
+        },
+        {
+          "type": "temoignage-item"
+        },
+        {
+          "type": "temoignage-item"
+        },
+        {
+          "type": "temoignage-item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

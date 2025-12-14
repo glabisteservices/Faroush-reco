@@ -1,0 +1,200 @@
+<style>
+  .collection-hero {
+    padding: 20px 20px 20px 10px;
+  }
+  
+  .collection-intro-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  
+  .collection-title-container {
+    flex: 0 0 30%;
+  }
+  
+  .collection-description-container {
+    flex: 1;
+    max-width: 60%;
+    position: relative;
+  }
+  
+  .heading-style-h1 {
+    font-family: Karla, sans-serif;
+    color: #6e612b;
+    font-size: 2.8rem;
+    line-height: 1;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .paragraph {
+    font-family: Karla, sans-serif;
+    color: #6e612b;
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  .description-wrapper {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .description-content {
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+    max-height: 6.4em; /* 4 lignes approximativement (1.6 line-height * 4) */
+    position: relative;
+  }
+  
+  .description-content.expanded {
+    max-height: none;
+  }
+  
+  .description-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.2em; /* Plus haut gradient pour mieux indiquer la continuation */
+    background: linear-gradient(transparent 0%, rgba(255,255,255,0.3) 40%, rgba(255,255,255,0.8) 70%, white 100%);
+    pointer-events: none;
+    transition: opacity 0.4s ease-in-out;
+  }
+  
+  .description-gradient.hidden {
+    opacity: 0;
+  }
+  
+  @media screen and (max-width: 991px) {
+    .collection-hero {
+      padding-bottom: 20px;
+      padding-left: 10px;
+    }
+    
+    .collection-intro-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .collection-title-container {
+      flex: none;
+      width: 100%;
+    }
+    
+    .collection-description-container {
+      flex: none;
+      width: 100%;
+      max-width: none;
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    .collection-hero {
+      padding: 10px 16px 20px 5px;
+    }
+    
+    .heading-style-h1 {
+      font-size: 2.5rem;
+    }
+    
+    .description-content {
+      max-height: 6.4em; /* Même hauteur sur mobile */
+    }
+  }
+</style>
+
+<section class="collection-hero">
+  <div class="collection-intro-container">
+    <div class="collection-title-container">
+      <h1 class="heading-style-h1">{{ collection.title }}</h1>
+    </div>
+    {% if collection.description != blank %}
+      <div class="collection-description-container">
+        <div class="description-wrapper" onclick="toggleDescription(this)">
+          <div class="description-content" id="description-content">
+            <div class="paragraph">{{ collection.description }}</div>
+          </div>
+          <div class="description-gradient" id="description-gradient"></div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+function toggleDescription(wrapper) {
+  const content = wrapper.querySelector('#description-content');
+  const gradient = wrapper.querySelector('#description-gradient');
+  
+  if (content.classList.contains('expanded')) {
+    // Réduire
+    content.classList.remove('expanded');
+    gradient.classList.remove('hidden');
+  } else {
+    // Étendre
+    content.classList.add('expanded');
+    gradient.classList.add('hidden');
+  }
+}
+
+// Vérifier si le texte dépasse 4 lignes au chargement
+document.addEventListener('DOMContentLoaded', function() {
+  const content = document.getElementById('description-content');
+  const gradient = document.getElementById('description-gradient');
+  
+  if (content && content.scrollHeight <= content.clientHeight) {
+    // Le texte ne dépasse pas, masquer le gradient
+    gradient.style.display = 'none';
+  }
+});
+</script>
+
+{% schema %}
+{
+  "tag": "section",
+  "name": "Collection Hero",
+  "class": "collection-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection Hero Settings"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#6e612b"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Hero",
+      "category": "Collection"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,191 @@
+{% comment %}
+    Mobile-specific product hero section (<= 768px).
+    This section should be included in the product template and is visible only on mobile screens.
+    It reuses the Alpine.js component productGallery(product, initialVariant) defined globally.
+{% endcomment %}
+
+{% liquid
+    assign product = product | default: product.selected_or_first_available_variant.product
+    assign initial_variant = product.selected_or_first_available_variant
+%}
+
+<style>
+  /* 1. Cache la section mobile sur le bureau */
+  @media (min-width: 769px) {
+    .product-hero-mobile {
+      display: none !important;
+    }
+  }
+
+  /* 2. Styles de base pour la galerie mobile */
+  .mobile-gallery-wrapper {
+      position: relative;
+      width: 100%;
+  }
+  .mobile-slider-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+  }
+  .mobile-slider-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+      display: block;
+      /* Utiliser l'aspect ratio 1:1 pour un meilleur affichage mobile */
+      min-height: 100vw; 
+  }
+  .product-info-mobile-block {
+      /* Utilise la même marge interne que votre .product-header_component mobile */
+      padding: 0 0.75rem 2rem; 
+      box-sizing: border-box;
+      /* Force l'affichage en colonne */
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+  }
+  /* Réutilisation des styles des flèches desktop pour la navigation mobile */
+  .gallery-navigation-mobile {
+      position: absolute;
+      bottom: 0.75rem;
+      right: 0.75rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 5;
+  }
+
+  /* 3. Styles pour la bande de vignettes (CORRECTION) */
+  .product-thumbnails {
+      padding: 0 0.75rem 0.5rem; 
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto; /* Permet le défilement horizontal */
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap; /* Empêche le retour à la ligne */
+      margin-top: 0.5rem;
+  }
+  .thumbnail-item {
+      flex: 0 0 auto; /* Empêche les vignettes de s'étirer ou de se contracter */
+      width: 76px;
+      height: 76px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      overflow: hidden;
+      cursor: pointer;
+      background-color: #f3eee6;
+      transition: border-color .2s ease;
+      display: inline-block; /* Nécessaire pour white-space: nowrap */
+  }
+  .thumbnail-item.active {
+      border-color: #c9b466; /* Contour actif de votre thème desktop */
+  }
+  .thumbnail-image {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+</style>
+
+<section
+  id="ProductHeroMobile"
+  class="product-header_component product-hero-mobile"
+  x-data="productGallery({{ product | json }}, {{ initial_variant | json }})"
+  x-init="initGallery"
+  x-cloak
+>
+  <div class="mobile-gallery-wrapper">
+    <div class="product-gallery-main mobile-slider-container">
+      {% for media in product.media %}
+        {% liquid
+          assign image_url = media | image_url: width: 768
+          assign media_alt = media.alt | default: product.title
+        %}
+        <img
+          class="gallery-image mobile-slider-image"
+          src="{{ image_url }}"
+          alt="{{ media_alt }}"
+          x-show="currentImageIndex === {{ forloop.index0 }}"
+          x-transition:enter="ease-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="ease-in duration-300"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+        >
+      {% endfor %}
+
+      <div class="gallery-navigation-mobile">
+        <button type="button" class="nav-arrow prev" @click="previousImage()" :disabled="currentImageIndex === 0" aria-label="Précédent">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="nav-arrow next" @click="nextImage()" :disabled="product.media && currentImageIndex >= product.media.length - 1" aria-label="Suivant">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="product-thumbnails">
+      <template x-for="(media, index) in product.media" :key="media.id">
+        <div class="thumbnail-item" :class="{ 'active': index === currentImageIndex }" @click="setCurrentImage(index)" :aria-label="'Voir image ' + (index + 1)">
+          <img class="thumbnail-image" :src="media.preview_image ? media.preview_image.src : media.src" :alt="media.alt || product.title">
+        </div>
+      </template>
+    </div>
+  </div>
+
+
+  <div class="product-info-mobile-block">
+    <h1 class="product-title">{{ product.title }}</h1>
+
+    <div class="product-price-wrapper">
+      <span class="product-price" x-text="formatPrice(selectedVariant && selectedVariant.price ? selectedVariant.price : {{ initial_variant.price }})"></span>
+      <span class="product-compare-price" x-show="selectedVariant && selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price" x-text="formatPrice(selectedVariant.compare_at_price)"></span>
+      <template x-if="selectedVariant && selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price">
+        <span class="product-item_tag">Promo</span>
+      </template>
+    </div>
+
+    {% if product.tags.size > 0 %}
+    <div class="product-tags">
+      {% for tag in product.tags %}
+        <span class="product-item_tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div>
+      <div class="stock-status" :class="selectedVariant && selectedVariant.available ? 'in-stock' : 'out-of-stock'" x-text="(selectedVariant && selectedVariant.available) ? 'En stock' : 'Rupture de stock'"></div>
+    </div>
+
+    <div class="product-description">{{ product.description | strip_html | truncatewords: 30 }}</div>
+
+    <div class="variant-selector">
+      {% for option in product.options_with_values %}
+        <label class="variant-label">{{ option.name }}</label>
+        <select class="variant-select" @change="updateSelectedVariant({{ forloop.index0 }}, $event.target.value)">
+          <template x-for="value in product.options_with_values[{{ forloop.index0 }}].values" :key="value">
+            <option :selected="selectedOptions[{{ forloop.index0 }}] === value" x-text="value"></option>
+          </template>
+        </select>
+      {% endfor %}
+    </div>
+
+    <div class="shipping-info">
+      <svg class="shipping-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7h12v10H3V7zm12 4h3l3 3v3h-6v-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="shipping-text">Livraison 1 - 3 jours</span>
+    </div>
+
+    <div class="add-to-cart-section">
+      <button type="button" class="add-to-cart-button" @click="addToCart()" :disabled="!(selectedVariant && selectedVariant.available)">Ajouter au panier</button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Hero Mobile",
+  "tag": "section",
+  "class": "section product-hero-mobile",
+  "settings": [],
+  "templates": ["product"],
+  "presets": [{ "name": "Product Hero Mobile" }]
+}
+{% endschema %}
