@@ -231,6 +231,90 @@ src="https://www.facebook.com/tr?id=745379928491247&ev=PageView&noscript=1"
   })();
 </script>
 
+{% comment %}
+  ============================================================
+  ANTI-POLLUTION SEO - Faroush.fr
+  Bloque l'indexation des pages parasites (locales inutiles + facettes/tri/recherche)
+  Préserve l'indexation des pages money (home, collections, produits, pages, blog)
+  Version: 1.0 | Dernière MAJ: 2025
+  ============================================================
+{% endcomment %}
+
+{% comment %} === CONFIGURATION === {% endcomment %}
+
+{% comment %} Locales parasites à noindexer (chemins commençant par) {% endcomment %}
+{% assign parasitic_locales = '/fr-fr/,/en-en/,/fr-en-ae/,/en-fr/,/fr-en/,/en-ae/' | split: ',' %}
+
+{% comment %} Paramètres parasites (filtres, tri, recherche) - SANS utm/gclid/fbclid/variant {% endcomment %}
+{% assign parasitic_params = 'filter.,sort_by=,q=,view=,constraint=' | split: ',' %}
+
+{% comment %} === RÉCUPÉRATION DE L'URL === {% endcomment %}
+
+{% comment %} Priorité 1: request.path (chemin sans domaine ni query string) {% endcomment %}
+{% assign current_path = request.path | default: '' %}
+
+{% comment %} Priorité 2: request.url (URL complète avec paramètres) {% endcomment %}
+{% assign current_url = request.url | default: '' %}
+
+{% comment %} Fallback: extraction depuis content_for_header si request.url vide {% endcomment %}
+{% if current_url == blank %}
+  {% assign header_content = content_for_header %}
+  {% if header_content contains '"pageurl":"' %}
+    {% assign url_split = header_content | split: '"pageurl":"' %}
+    {% if url_split.size > 1 %}
+      {% assign url_end = url_split[1] | split: '"' | first %}
+      {% assign current_url = url_end | url_decode %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% comment %} === DÉTECTION DES PAGES PARASITES === {% endcomment %}
+
+{% assign is_parasitic_locale = false %}
+{% assign is_parasitic_param = false %}
+
+{% comment %} Test 1: Locale parasite (basé sur le chemin) {% endcomment %}
+{% for locale in parasitic_locales %}
+  {% assign locale_trimmed = locale | strip %}
+  {% if locale_trimmed != blank %}
+    {% if current_path contains locale_trimmed %}
+      {% assign is_parasitic_locale = true %}
+      {% break %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} Test 2: Paramètres parasites (basé sur l'URL complète) {% endcomment %}
+{% if is_parasitic_locale == false and current_url != blank %}
+  {% comment %} On vérifie uniquement s'il y a un "?" dans l'URL {% endcomment %}
+  {% if current_url contains '?' %}
+    {% for param in parasitic_params %}
+      {% assign param_trimmed = param | strip %}
+      {% if param_trimmed != blank %}
+        {% if current_url contains param_trimmed %}
+          {% assign is_parasitic_param = true %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+{% comment %} === INJECTION DU META ROBOTS === {% endcomment %}
+
+{% comment %} 
+  FAIL-SAFE: On n'ajoute noindex QUE si une condition parasite est vraie.
+  Les UTM, gclid, fbclid, variant ne déclenchent PAS noindex.
+{% endcomment %}
+
+{% if is_parasitic_locale or is_parasitic_param %}
+  <meta name="robots" content="noindex, follow">
+  {% comment %} Debug (à supprimer après validation): {% endcomment %}
+  <!-- SEO-BLOCK: noindex appliqué | locale_parasite={{ is_parasitic_locale }} | param_parasite={{ is_parasitic_param }} | path={{ current_path }} -->
+{% endif %}
+
+{% comment %} === FIN ANTI-POLLUTION SEO === {% endcomment %}
+
 </head>
 <body li-page="product" li-layout="theme">
 
