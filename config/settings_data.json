@@ -57,20 +57,6 @@
         "disabled": false,
         "settings": {}
       },
-      "15683396631634586217": {
-        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
-        "disabled": true,
-        "settings": {
-          "button_color": "#6e612b",
-          "secondary_color": "#ffffff",
-          "ternary_color": "#bdbf85",
-          "button_icon": "chat_bubble",
-          "button_text": "chat_with_us",
-          "button_horizontal_position": "bottom_right",
-          "button_vertical_position": "higher",
-          "greeting_message": "Bonjour, nous serions ravis de vous aider si vous avez la moindre question. Notre équipe se tient à votre disposition"
-        }
-      },
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
@@ -81,6 +67,20 @@
         "disabled": false,
         "settings": {
           "body_font": "sans_serif_n4"
+        }
+      },
+      "15683396631634586217": {
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": false,
+        "settings": {
+          "button_color": "#6e612b",
+          "secondary_color": "#ffffff",
+          "ternary_color": "#bdbf85",
+          "button_icon": "chat_bubble",
+          "button_text": "chat_with_us",
+          "button_horizontal_position": "bottom_right",
+          "button_vertical_position": "highest",
+          "greeting_message": "Bonjour, nous serions ravis de vous aider si vous avez la moindre question. Notre équipe se tient à votre disposition"
         }
       }
     }
