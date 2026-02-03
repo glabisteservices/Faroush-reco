@@ -15,94 +15,184 @@
   /* Styles mobile - suppression complète des espaces en bas + 10px à gauche/droite */
   @media (max-width: 768px) {
     .bloc-de-texte-section {
-      margin-bottom: 0 !important;
-      padding-bottom: 0 !important;
-    }
-    
-    .bloc-de-texte-section .bloc-de-texte-wrapper {
-      padding: 0 10px 0 10px !important;
-      margin: 0 !important;
-      text-align: center;
-    }
-  }
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
 
-  /* Reset des marges des blocs - SCOPED À CETTE SECTION */
-  .bloc-de-texte-section .bloc-titre-h2,
-  .bloc-de-texte-section .bloc-gros-texte,
-  .bloc-de-texte-section .bloc-paragraph,
-  .bloc-de-texte-section .bloc-bouton-hp {
-    margin: 0 0 15px 0;
-  }
+.bloc-de-texte-section .bloc-de-texte-wrapper {
+  padding: 0 10px 0 10px !important;
+  margin: 0 !important;
+  text-align: center;
+}
 
-  .bloc-de-texte-section .bloc-titre-h2:last-child,
-  .bloc-de-texte-section .bloc-gros-texte:last-child,
-  .bloc-de-texte-section .bloc-paragraph:last-child,
-  .bloc-de-texte-section .bloc-bouton-hp:last-child {
-    margin-bottom: 0;
-  }
+/* Reset des marges des blocs - SCOPED À CETTE SECTION */
+.bloc-de-texte-section .bloc-titre-h2,
+.bloc-de-texte-section .bloc-gros-texte,
+.bloc-de-texte-section .bloc-paragraph,
+.bloc-de-texte-section .bloc-bouton-hp {
+  margin: 0 0 15px 0;
+}
 
-  /* Styles des titres - SCOPED À CETTE SECTION */
+.bloc-de-texte-section .bloc-titre-h2:last-child,
+.bloc-de-texte-section .bloc-gros-texte:last-child,
+.bloc-de-texte-section .bloc-paragraph:last-child,
+.bloc-de-texte-section .bloc-bouton-hp:last-child {
+  margin-bottom: 0;
+}
+
+/* Styles des titres - SCOPED À CETTE SECTION */
+.bloc-de-texte-section .heading-style-h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  text-align: center;
+}
+
+/* ✅ H2 couleur + style */
+.bloc-de-texte-section .heading-style-h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+  text-align: center;
+  color: #6E612B; /* <-- demandé */
+}
+
+/* ✅ Première phrase plus grosse (premier paragraphe de la section) */
+.bloc-de-texte-section .bloc-de-texte-wrapper .paragraph:first-of-type,
+.bloc-de-texte-section .bloc-de-texte-wrapper p:first-of-type {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Style paragraphe - SCOPED À CETTE SECTION */
+.bloc-de-texte-section .paragraph {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+/* Styles bouton - SCOPED À CETTE SECTION */
+.bloc-de-texte-section .button-2 {
+  display: inline-block;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bloc-de-texte-section .bloc-bouton-hp {
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+/* =========================================================
+   ✅ ACCORDEON : H2 = titre cliquable + contenu déroulant
+   (nécessite la structure HTML <details><summary>...</summary>...</details>)
+========================================================= */
+
+.bloc-de-texte-section details {
+  border-top: 1px solid rgba(110, 97, 43, 0.25);
+  padding: 10px 0;
+  margin: 0 auto 15px auto;
+}
+
+.bloc-de-texte-section details:last-of-type {
+  margin-bottom: 0;
+}
+
+/* supprime le marker natif */
+.bloc-de-texte-section details summary::-webkit-details-marker {
+  display: none;
+}
+
+.bloc-de-texte-section details summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+/* Le H2 placé dans le summary */
+.bloc-de-texte-section details summary .heading-style-h2 {
+  margin: 0;
+  color: #6E612B;
+  font-weight: 700;
+  font-size: 1.4rem; /* un peu plus compact en mode accordéon */
+}
+
+/* flèche */
+.bloc-de-texte-section details summary::after {
+  content: "▾";
+  color: #6E612B;
+  font-size: 1.1em;
+  transition: transform 0.2s ease;
+  transform: translateY(1px);
+}
+
+.bloc-de-texte-section details[open] summary::after {
+  transform: rotate(180deg);
+}
+
+/* Contenu déroulé */
+.bloc-de-texte-section .accordion-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 0 0;
+  text-align: center;
+}
+
+.bloc-de-texte-section .accordion-body p,
+.bloc-de-texte-section .accordion-body ul,
+.bloc-de-texte-section .accordion-body ol {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive typography - SCOPED À CETTE SECTION */
+@media (max-width: 768px) {
   .bloc-de-texte-section .heading-style-h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0;
-    text-align: center;
-  }
-
-  .bloc-de-texte-section .heading-style-h2 {
     font-size: 2rem;
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0;
-    text-align: center;
   }
 
-  /* Style paragraphe - SCOPED À CETTE SECTION */
+  /* H2 normal (hors accordéon) */
+  .bloc-de-texte-section .heading-style-h2 {
+    font-size: 1.5rem;
+  }
+
+  /* H2 accordéon */
+  .bloc-de-texte-section details summary .heading-style-h2 {
+    font-size: 1.2rem;
+  }
+
   .bloc-de-texte-section .paragraph {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0;
-    text-align: center;
+    font-size: 0.9rem;
   }
 
-  /* Styles bouton - SCOPED À CETTE SECTION */
   .bloc-de-texte-section .button-2 {
-    display: inline-block;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
 
-  .bloc-de-texte-section .bloc-bouton-hp {
-    text-align: center;
-    width: 100%;
-    display: block;
+  /* première phrase un peu moins énorme sur mobile */
+  .bloc-de-texte-section .bloc-de-texte-wrapper .paragraph:first-of-type,
+  .bloc-de-texte-section .bloc-de-texte-wrapper p:first-of-type {
+    font-size: 1.05rem;
   }
+}
 
-  /* Responsive typography - SCOPED À CETTE SECTION */
-  @media (max-width: 768px) {
-    .bloc-de-texte-section .heading-style-h1 {
-      font-size: 2rem;
-    }
-    
-    .bloc-de-texte-section .heading-style-h2 {
-      font-size: 1.5rem;
-    }
-    
-    .bloc-de-texte-section .paragraph {
-      font-size: 0.9rem;
-    }
-    
-    .bloc-de-texte-section .button-2 {
-      padding: 10px 20px;
-      font-size: 0.9rem;
-    }
-  }
 </style>
 
 <section class="bloc-de-texte-section">
