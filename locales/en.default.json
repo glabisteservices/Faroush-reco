@@ -90,6 +90,9 @@
           "limited_window_title_with_final_sale": {
             "many": "Free returns within %{count} days, final sale not included"
           }
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "many": "No shops available in %{country} with your items"
         }
       },
       "shipping": {
@@ -162,6 +165,12 @@
         },
         "shipping_method_recurring_shipments_group_title": {
           "many": "Recurring shipments"
+        },
+        "unbranded_description_with_fulfillment_days": {
+          "many": "Shipping within %{count} business days"
+        },
+        "unbranded_description_with_fulfillment_weeks": {
+          "many": "Shipping within %{count} weeks"
         }
       },
       "payment": {
@@ -176,6 +185,12 @@
         },
         "card_fields_unavailable_html": {
           "many": "Credit and debit card payments are not available at this time.<br> <a href=\"%{current_url}\">Refresh this page</a> or try another payment method."
+        },
+        "discount_show_more_warnings": {
+          "many": "Show more %{count}"
+        },
+        "discount_codes_removed_summary": {
+          "many": "%{count} discount codes have been removed"
         }
       },
       "shipping_errors": {
@@ -214,6 +229,18 @@
         },
         "gift_card_resend_failure": {
           "many": "There was a problem resending your gift cards. Please try again or contact us."
+        },
+        "thank_you_item_label": {
+          "many": "%{count} articles"
+        },
+        "thank_you_unconfirmed_items_heading": {
+          "many": "Some items are unconfirmed"
+        },
+        "thank_you_unconfirmed_items_description": {
+          "many": "You have not been charged for these"
+        },
+        "items_fulfilled_by_store": {
+          "many": "The items you purchased will be shipped from other stores."
         }
       },
       "order_payment_collection": {
@@ -324,6 +351,11 @@
         "subtitle": {
           "many": "This order will be shipped to an address provided by {{merchant}} . Select a shipping address."
         }
+      },
+      "remote_merchandise_only": {
+        "detail_item_label": {
+          "many": "{{count}} articles"
+        }
       }
     },
     "notices": {
@@ -404,6 +436,9 @@
             },
             "banner_due": {
               "many": "Your payment is due in {{count}} days"
+            },
+            "banner_overdue_for_single_fulfillment": {
+              "many": "The payment of {{amount}} is {{count}} days overdue. {{link}}"
             }
           }
         }
@@ -429,6 +464,24 @@
       "humanize": {
         "lessThanOneHourAgo": {
           "many": "{{count}} minutes ago"
+        }
+      }
+    },
+    "payment_methods": {
+      "add_payment_method": {
+        "subscription_contracts": {
+          "more_items": {
+            "many": "{{count}} additional products"
+          },
+          "product_count": {
+            "many": "{{count}} products"
+          }
+        },
+        "updating_contracts": {
+          "many": "Updating {{count}} subscription contracts..."
+        },
+        "contracts_updated": {
+          "many": "{{count}} subscription contracts have been successfully updated"
         }
       }
     }
