@@ -466,7 +466,7 @@
           "many": "{{count}} minutes ago"
         }
       }
-       },
+    },
     "payment_methods": {
       "add_payment_method": {
         "subscription_contracts": {
@@ -488,7 +488,7 @@
   },
   "products": {
     "product": {
-      "view_product": "View product",
+      "view_product": "See product",
       "unavailable": "Unavailable"
     }
   }
