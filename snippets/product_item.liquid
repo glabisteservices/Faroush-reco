@@ -69,10 +69,14 @@
       </div>
 
       {% if product_available %}
-        <div class="product-button">Voir le produit</div>
-      {% else %}
-        <div class="product-status">Non disponible</div>
-      {% endif %}
+  <div class="product-button">
+    {{ 'products.product.view_product' | t }}
+  </div>
+{% else %}
+  <div class="product-status">
+    {{ 'products.product.unavailable' | t }}
+  </div>
+{% endif %}
     </div>
   </a>
 </div>
