@@ -488,7 +488,7 @@
   },
   "products": {
     "product": {
-      "view_product": "See product",
+      "view_product": "View product",
       "unavailable": "Unavailable"
     }
   }
