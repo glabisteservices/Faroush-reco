@@ -1,58 +1,40 @@
 {% comment %}
   ============================================================
-  FAROUSH - Section FAQ Accordéon - VERSION DEBUG VISIBLE
+  FAROUSH - Section FAQ Accordéon - CORRIGÉ POUR JSON
   ============================================================
 {% endcomment %}
 
 {%- liquid
   assign show_content = false
   assign content_to_display = blank
-  assign debug_message = ''
   
   if section.settings.manual_content != blank
     assign show_content = true
     assign content_to_display = section.settings.manual_content
-    assign debug_message = '✅ Source: Contenu manuel de test'
   elsif request.page_type == 'collection' and collection != blank
-    assign debug_message = '📍 Type de page: collection | Collection: ' | append: collection.title
     if collection.metafields.custom.faq != blank
       assign show_content = true
       assign content_to_display = collection.metafields.custom.faq
-      assign debug_message = debug_message | append: ' | ✅ Metafield custom.faq trouvé'
-    else
-      assign debug_message = debug_message | append: ' | ❌ Metafield custom.faq VIDE ou INTROUVABLE'
+    elsif collection.metafields.custom.description != blank
+      assign show_content = true
+      assign content_to_display = collection.metafields.custom.description
     endif
   elsif request.page_type == 'page' and page != blank
-    assign debug_message = '📍 Type de page: page | Page: ' | append: page.title
     if page.metafields.custom.faq != blank
       assign show_content = true
       assign content_to_display = page.metafields.custom.faq
-      assign debug_message = debug_message | append: ' | ✅ Metafield custom.faq trouvé'
-    else
-      assign debug_message = debug_message | append: ' | ❌ Metafield custom.faq VIDE'
+    elsif page.metafields.custom.description_longue != blank
+      assign show_content = true
+      assign content_to_display = page.metafields.custom.description_longue
     endif
-  else
-    assign debug_message = '📍 Type de page: ' | append: request.page_type | append: ' | ⚠️ Type de page non supporté'
   endif
 -%}
-
-<!-- DEBUG VISIBLE -->
-<div style="background: #fffbea; border: 2px solid #f59e0b; padding: 15px; margin: 20px; border-radius: 8px; font-family: monospace; font-size: 12px;">
-  <strong>🔍 DEBUG SECTION FAQ:</strong><br>
-  {{ debug_message }}<br>
-  <strong>Contenu manuel rempli:</strong> {{ section.settings.manual_content | default: 'NON' | truncate: 20 }}<br>
-  <strong>show_content:</strong> {{ show_content }}<br>
-  {% if request.page_type == 'collection' %}
-    <strong>Collection handle:</strong> {{ collection.handle }}<br>
-    <strong>Metafield brut:</strong> {{ collection.metafields.custom.faq | default: 'NULL' | truncate: 100 }}
-  {% endif %}
-</div>
 
 {% if show_content %}
 
   <div class="fr-accordion-wrapper fr-section-wrapper">
     <div class="fr-accordion-content-raw" style="display:none;">
-      {{ content_to_display }}
+      {{ content_to_display.value }}
     </div>
     <div class="fr-accordion-rendered"></div>
   </div>
@@ -506,9 +488,9 @@
 
 {% else %}
   
-  <div style="padding: 40px 20px; text-align: center; background: #fff3cd; border: 2px dashed #ffc107; margin: 20px; border-radius: 8px;">
-    <p style="color: #856404; font-size: 14px;">
-      ⚠️ Aucun contenu FAQ à afficher
+  <div style="padding: 40px 20px; text-align: center; background: #f9f9f9; border: 2px dashed #ddd; margin: 20px;">
+    <p style="color: #666; font-size: 14px;">
+      ⚠️ Aucun contenu FAQ
     </p>
   </div>
 
