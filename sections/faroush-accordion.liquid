@@ -1,62 +1,28 @@
 {% comment %}
   ============================================================
-  FAROUSH - Section FAQ Accordéon
+  FAROUSH - Section FAQ Accordéon avec Connexion Metafield
   Fichier : sections/faroush-accordion.liquid
-  
-  Cette section affiche le contenu des metafields :
-  - COLLECTIONS : custom.description + custom.faq
-  - PAGES : custom.description_longue + custom.faq
-  
-  Système en accordéon avec H2 et H3 cliquables
   ============================================================
 {% endcomment %}
 
 {%- liquid
-  assign show_description = false
-  assign show_faq = false
-  assign description_content = blank
-  assign faq_content = blank
+  assign show_content = false
+  assign content_to_display = blank
   
-  if request.page_type == 'collection' and collection != blank
-    if collection.metafields.custom.description != blank
-      assign show_description = true
-      assign description_content = collection.metafields.custom.description
-    endif
-    if collection.metafields.custom.faq != blank
-      assign show_faq = true
-      assign faq_content = collection.metafields.custom.faq
-    endif
-  elsif request.page_type == 'page' and page != blank
-    if page.metafields.custom.description_longue != blank
-      assign show_description = true
-      assign description_content = page.metafields.custom.description_longue
-    endif
-    if page.metafields.custom.faq != blank
-      assign show_faq = true
-      assign faq_content = page.metafields.custom.faq
-    endif
+  if section.settings.content_source != blank
+    assign show_content = true
+    assign content_to_display = section.settings.content_source
   endif
 -%}
 
-{%- if show_description or show_faq -%}
+{%- if show_content -%}
 
-  {%- if show_description -%}
-    <div class="fr-accordion-wrapper fr-description-section">
-      <div class="fr-accordion-content-raw" style="display:none;">
-        {{ description_content }}
-      </div>
-      <div class="fr-accordion-rendered"></div>
+  <div class="fr-accordion-wrapper fr-section-wrapper">
+    <div class="fr-accordion-content-raw" style="display:none;">
+      {{ content_to_display }}
     </div>
-  {%- endif -%}
-
-  {%- if show_faq -%}
-    <div class="fr-accordion-wrapper fr-faq-section">
-      <div class="fr-accordion-content-raw" style="display:none;">
-        {{ faq_content }}
-      </div>
-      <div class="fr-accordion-rendered"></div>
-    </div>
-  {%- endif -%}
+    <div class="fr-accordion-rendered"></div>
+  </div>
 
   <style>
     /* ===================================================
@@ -64,21 +30,18 @@
        =================================================== */
 
     .fr-accordion-wrapper {
-      max-width: 900px;
+      max-width: {{ section.settings.max_width }}px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
-    .fr-description-section {
-      margin-top: 60px;
-      margin-bottom: 60px;
-    }
-
-    .fr-faq-section {
-      margin-top: 40px;
-      margin-bottom: 100px;
-      padding-top: 50px;
+    .fr-section-wrapper {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+      {% if section.settings.show_border_top %}
+      padding-top: {{ section.settings.margin_top }}px;
       border-top: 1px solid #eee;
+      {% endif %}
     }
 
     /* ===================================================
@@ -320,212 +283,217 @@
         padding: 18px 20px;
       }
 
-      .fr-description-section {
-        margin-top: 40px;
-        margin-bottom: 40px;
-      }
-
-      .fr-faq-section {
-        margin-top: 30px;
-        margin-bottom: 60px;
-        padding-top: 30px;
+      .fr-section-wrapper {
+        margin-top: {{ section.settings.margin_top | divided_by: 1.5 }}px;
+        margin-bottom: {{ section.settings.margin_bottom | divided_by: 1.5 }}px;
       }
     }
   </style>
 
   <script>
-    if (!window.faroushAccordionInitialized) {
-      window.faroushAccordionInitialized = true;
+    (function() {
+      var sectionId = 'fr-accordion-{{ section.id }}';
+      
+      if (window['faroushInit_' + sectionId]) return;
+      window['faroushInit_' + sectionId] = true;
 
-      function initFaroushAccordions() {
-        document.querySelectorAll('.fr-accordion-wrapper').forEach(function(wrapper) {
-          if (wrapper.dataset.initialized) return;
-          wrapper.dataset.initialized = 'true';
+      function initFaroushAccordion() {
+        var wrapper = document.querySelector('#shopify-section-{{ section.id }} .fr-accordion-wrapper');
+        if (!wrapper || wrapper.dataset.initialized) return;
+        
+        wrapper.dataset.initialized = 'true';
 
-          var rawDiv = wrapper.querySelector('.fr-accordion-content-raw');
-          var renderedDiv = wrapper.querySelector('.fr-accordion-rendered');
-          if (!rawDiv || !renderedDiv) return;
+        var rawDiv = wrapper.querySelector('.fr-accordion-content-raw');
+        var renderedDiv = wrapper.querySelector('.fr-accordion-rendered');
+        if (!rawDiv || !renderedDiv) return;
 
-          var rawHTML = rawDiv.innerHTML;
-          var tempContainer = document.createElement('div');
-          tempContainer.innerHTML = rawHTML;
+        var rawHTML = rawDiv.innerHTML;
+        var tempContainer = document.createElement('div');
+        tempContainer.innerHTML = rawHTML;
 
-          var children = Array.from(tempContainer.childNodes);
-          var structure = [];
-          var tocItems = [];
-          var currentH2 = null;
-          var currentH3 = null;
-          var h2Index = 0;
+        var children = Array.from(tempContainer.childNodes);
+        var structure = [];
+        var tocItems = [];
+        var currentH2 = null;
+        var currentH3 = null;
+        var h2Index = 0;
 
-          children.forEach(function(node) {
-            if (node.nodeType === 1 && node.tagName === 'H2') {
+        children.forEach(function(node) {
+          if (node.nodeType === 1 && node.tagName === 'H2') {
+            h2Index++;
+            var h2Id = 'fr-section-' + h2Index + '-' + Math.random().toString(36).substr(2, 5);
+            currentH2 = {
+              tag: 'h2',
+              text: node.textContent,
+              id: h2Id,
+              children: [],
+              content: []
+            };
+            currentH3 = null;
+            structure.push(currentH2);
+            tocItems.push({ text: node.textContent, id: h2Id });
+          }
+          else if (node.nodeType === 1 && node.tagName === 'H3') {
+            if (!currentH2) {
               h2Index++;
-              var h2Id = 'fr-section-' + h2Index + '-' + Math.random().toString(36).substr(2, 5);
+              var autoH2Id = 'fr-section-' + h2Index + '-' + Math.random().toString(36).substr(2, 5);
               currentH2 = {
                 tag: 'h2',
-                text: node.textContent,
-                id: h2Id,
+                text: 'Contenu',
+                id: autoH2Id,
                 children: [],
                 content: []
               };
-              currentH3 = null;
               structure.push(currentH2);
-              tocItems.push({ text: node.textContent, id: h2Id });
             }
-            else if (node.nodeType === 1 && node.tagName === 'H3') {
-              if (!currentH2) {
-                h2Index++;
-                var autoH2Id = 'fr-section-' + h2Index + '-' + Math.random().toString(36).substr(2, 5);
-                currentH2 = {
-                  tag: 'h2',
-                  text: 'Contenu',
-                  id: autoH2Id,
-                  children: [],
-                  content: []
-                };
-                structure.push(currentH2);
-              }
-              currentH3 = {
-                tag: 'h3',
-                text: node.textContent,
-                content: []
-              };
-              currentH2.children.push(currentH3);
-            }
-            else {
-              var htmlContent = (node.nodeType === 1) ? node.outerHTML : (node.textContent.trim() ? node.textContent : '');
-              if (htmlContent) {
-                if (currentH3) {
-                  currentH3.content.push(htmlContent);
-                } else if (currentH2) {
-                  currentH2.content.push(htmlContent);
-                }
+            currentH3 = {
+              tag: 'h3',
+              text: node.textContent,
+              content: []
+            };
+            currentH2.children.push(currentH3);
+          }
+          else {
+            var htmlContent = (node.nodeType === 1) ? node.outerHTML : (node.textContent.trim() ? node.textContent : '');
+            if (htmlContent) {
+              if (currentH3) {
+                currentH3.content.push(htmlContent);
+              } else if (currentH2) {
+                currentH2.content.push(htmlContent);
               }
             }
+          }
+        });
+
+        var outputHTML = '';
+
+        if (tocItems.length > 1) {
+          outputHTML += '<nav class="fr-accordion-toc"><ul>';
+          tocItems.forEach(function(item) {
+            outputHTML += '<li><a href="#' + item.id + '">' + item.text + '</a></li>';
           });
+          outputHTML += '</ul></nav>';
+        }
 
-          var outputHTML = '';
+        structure.forEach(function(h2Item, idx) {
+          outputHTML += '<div class="fr-accordion-item" id="' + h2Item.id + '">';
+          outputHTML += '<h2 class="fr-accordion-h2">' + h2Item.text + '</h2>';
+          outputHTML += '<div class="fr-accordion-body"><div class="fr-accordion-body-inner">';
 
-          if (tocItems.length > 1) {
-            outputHTML += '<nav class="fr-accordion-toc"><ul>';
-            tocItems.forEach(function(item) {
-              outputHTML += '<li><a href="#' + item.id + '">' + item.text + '</a></li>';
-            });
-            outputHTML += '</ul></nav>';
+          if (h2Item.content.length > 0) {
+            outputHTML += h2Item.content.join('');
           }
 
-          structure.forEach(function(h2Item, idx) {
-            outputHTML += '<div class="fr-accordion-item" id="' + h2Item.id + '">';
-            outputHTML += '<h2 class="fr-accordion-h2">' + h2Item.text + '</h2>';
-            outputHTML += '<div class="fr-accordion-body"><div class="fr-accordion-body-inner">';
-
-            if (h2Item.content.length > 0) {
-              outputHTML += h2Item.content.join('');
-            }
-
-            h2Item.children.forEach(function(h3Item, h3Idx) {
-              outputHTML += '<div class="fr-sub-accordion-item">';
-              outputHTML += '<h3 class="fr-sub-accordion-h3">' + h3Item.text + '</h3>';
-              outputHTML += '<div class="fr-sub-accordion-body"><div class="fr-sub-accordion-body-inner">';
-              outputHTML += h3Item.content.join('');
-              outputHTML += '</div></div></div>';
-            });
-
+          h2Item.children.forEach(function(h3Item, h3Idx) {
+            outputHTML += '<div class="fr-sub-accordion-item">';
+            outputHTML += '<h3 class="fr-sub-accordion-h3">' + h3Item.text + '</h3>';
+            outputHTML += '<div class="fr-sub-accordion-body"><div class="fr-sub-accordion-body-inner">';
+            outputHTML += h3Item.content.join('');
             outputHTML += '</div></div></div>';
           });
 
-          renderedDiv.innerHTML = outputHTML;
+          outputHTML += '</div></div></div>';
+        });
 
-          renderedDiv.querySelectorAll('.fr-accordion-h2').forEach(function(h2El) {
-            h2El.addEventListener('click', function() {
-              var body = this.nextElementSibling;
-              var isOpen = this.classList.contains('fr-open');
+        renderedDiv.innerHTML = outputHTML;
 
-              if (isOpen) {
-                body.style.maxHeight = '0';
-                this.classList.remove('fr-open');
-              } else {
-                body.style.maxHeight = body.scrollHeight + 'px';
-                this.classList.add('fr-open');
-              }
-            });
+        renderedDiv.querySelectorAll('.fr-accordion-h2').forEach(function(h2El) {
+          h2El.addEventListener('click', function() {
+            var body = this.nextElementSibling;
+            var isOpen = this.classList.contains('fr-open');
+
+            if (isOpen) {
+              body.style.maxHeight = '0';
+              this.classList.remove('fr-open');
+            } else {
+              body.style.maxHeight = body.scrollHeight + 'px';
+              this.classList.add('fr-open');
+            }
           });
+        });
 
-          renderedDiv.querySelectorAll('.fr-sub-accordion-h3').forEach(function(h3El) {
-            h3El.addEventListener('click', function() {
-              var body = this.nextElementSibling;
-              var isOpen = this.classList.contains('fr-open');
-              var parentBody = this.closest('.fr-accordion-body');
+        renderedDiv.querySelectorAll('.fr-sub-accordion-h3').forEach(function(h3El) {
+          h3El.addEventListener('click', function() {
+            var body = this.nextElementSibling;
+            var isOpen = this.classList.contains('fr-open');
+            var parentBody = this.closest('.fr-accordion-body');
 
-              if (isOpen) {
-                body.style.maxHeight = '0';
-                this.classList.remove('fr-open');
-              } else {
-                body.style.maxHeight = body.scrollHeight + 'px';
-                this.classList.add('fr-open');
+            if (isOpen) {
+              body.style.maxHeight = '0';
+              this.classList.remove('fr-open');
+            } else {
+              body.style.maxHeight = body.scrollHeight + 'px';
+              this.classList.add('fr-open');
+            }
+
+            setTimeout(function() {
+              if (parentBody && parentBody.previousElementSibling.classList.contains('fr-open')) {
+                parentBody.style.maxHeight = parentBody.scrollHeight + 'px';
               }
-
-              setTimeout(function() {
-                if (parentBody && parentBody.previousElementSibling.classList.contains('fr-open')) {
-                  parentBody.style.maxHeight = parentBody.scrollHeight + 'px';
-                }
-              }, 50);
-            });
+            }, 50);
           });
+        });
 
-          var firstH2 = renderedDiv.querySelector('.fr-accordion-h2');
-          if (firstH2) {
-            firstH2.classList.add('fr-open');
-            var firstBody = firstH2.nextElementSibling;
-            if (firstBody) {
-              firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
+        var firstH2 = renderedDiv.querySelector('.fr-accordion-h2');
+        if (firstH2) {
+          firstH2.classList.add('fr-open');
+          var firstBody = firstH2.nextElementSibling;
+          if (firstBody) {
+            firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
 
-              var firstH3 = firstBody.querySelector('.fr-sub-accordion-h3');
-              if (firstH3) {
-                firstH3.classList.add('fr-open');
-                var firstH3Body = firstH3.nextElementSibling;
-                if (firstH3Body) {
-                  firstH3Body.style.maxHeight = firstH3Body.scrollHeight + 'px';
+            var firstH3 = firstBody.querySelector('.fr-sub-accordion-h3');
+            if (firstH3) {
+              firstH3.classList.add('fr-open');
+              var firstH3Body = firstH3.nextElementSibling;
+              if (firstH3Body) {
+                firstH3Body.style.maxHeight = firstH3Body.scrollHeight + 'px';
 
-                  setTimeout(function() {
-                    firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
-                  }, 50);
-                }
+                setTimeout(function() {
+                  firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
+                }, 50);
               }
             }
           }
+        }
 
-          renderedDiv.querySelectorAll('.fr-accordion-toc a').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-              e.preventDefault();
-              var targetId = this.getAttribute('href').substring(1);
-              var targetItem = document.getElementById(targetId);
-              if (!targetItem) return;
+        renderedDiv.querySelectorAll('.fr-accordion-toc a').forEach(function(link) {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('href').substring(1);
+            var targetItem = document.getElementById(targetId);
+            if (!targetItem) return;
 
-              var h2El = targetItem.querySelector('.fr-accordion-h2');
-              if (h2El && !h2El.classList.contains('fr-open')) {
-                h2El.click();
-              }
+            var h2El = targetItem.querySelector('.fr-accordion-h2');
+            if (h2El && !h2El.classList.contains('fr-open')) {
+              h2El.click();
+            }
 
-              setTimeout(function() {
-                targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }, 100);
-            });
+            setTimeout(function() {
+              targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
           });
         });
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initFaroushAccordions);
+        document.addEventListener('DOMContentLoaded', initFaroushAccordion);
       } else {
-        initFaroushAccordions();
+        initFaroushAccordion();
       }
 
       if (window.Shopify && window.Shopify.designMode) {
-        document.addEventListener('shopify:section:load', initFaroushAccordions);
+        document.addEventListener('shopify:section:load', initFaroushAccordion);
       }
-    }
+    })();
   </script>
+
+{%- else -%}
+  
+  <div style="padding: 40px 20px; text-align: center; background: #f9f9f9; border: 2px dashed #ddd; margin: 20px;">
+    <p style="color: #666; font-size: 14px;">
+      ⚠️ Veuillez sélectionner un metafield dans les paramètres de la section
+    </p>
+  </div>
 
 {%- endif -%}
 
@@ -536,8 +504,54 @@
   "class": "faroush-accordion-section",
   "settings": [
     {
-      "type": "paragraph",
-      "content": "Cette section affiche automatiquement le contenu des metafields custom.faq et custom.description (collections) ou custom.description_longue (pages). Aucune configuration nécessaire."
+      "type": "header",
+      "content": "Contenu"
+    },
+    {
+      "type": "richtext",
+      "id": "content_source",
+      "label": "Contenu de l'accordéon",
+      "info": "Connectez ici votre metafield custom.faq ou saisissez du contenu directement. Utilisez des titres H2 et H3 pour créer les accordéons."
+    },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "label": "Largeur maximale",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Marge en haut",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Marge en bas",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_top",
+      "label": "Afficher une bordure en haut",
+      "default": true
     }
   ],
   "presets": [
