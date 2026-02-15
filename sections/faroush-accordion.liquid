@@ -1,16 +1,18 @@
 {% comment %}
   ============================================================
-  FAROUSH - Section FAQ Accordéon - CORRIGÉ POUR JSON
+  FAROUSH - Section FAQ Accordéon - VERSION CORRIGÉE
   ============================================================
 {% endcomment %}
 
 {%- liquid
   assign show_content = false
   assign content_to_display = blank
+  assign is_manual = false
   
   if section.settings.manual_content != blank
     assign show_content = true
     assign content_to_display = section.settings.manual_content
+    assign is_manual = true
   elsif request.page_type == 'collection' and collection != blank
     if collection.metafields.custom.faq != blank
       assign show_content = true
@@ -34,12 +36,20 @@
 
   <div class="fr-accordion-wrapper fr-section-wrapper">
     <div class="fr-accordion-content-raw" style="display:none;">
-      {{ content_to_display.value }}
+      {% if is_manual %}
+        {{ content_to_display }}
+      {% else %}
+        {{ content_to_display.value | default: content_to_display }}
+      {% endif %}
     </div>
     <div class="fr-accordion-rendered"></div>
   </div>
 
   <style>
+    /* ===================================================
+       FAROUSH ACCORDION — BASE
+       =================================================== */
+
     .fr-accordion-wrapper {
       max-width: {{ section.settings.max_width }}px;
       margin: 0 auto;
@@ -54,6 +64,10 @@
       border-top: 1px solid #eee;
       {% endif %}
     }
+
+    /* ===================================================
+       SOMMAIRE (Table of Contents)
+       =================================================== */
 
     .fr-accordion-toc {
       background: #f8f8f6;
@@ -101,6 +115,10 @@
       transform: translateX(3px);
       color: #000;
     }
+
+    /* ===================================================
+       ACCORDÉON H3 (Tiroirs principaux)
+       =================================================== */
 
     .fr-accordion-item {
       border-bottom: 1px solid #e5e5e5;
@@ -153,6 +171,10 @@
     .fr-accordion-body-inner {
       padding: 0 0 25px 0;
     }
+
+    /* ===================================================
+       SOUS-ACCORDÉON H4 (Tiroirs secondaires)
+       =================================================== */
 
     .fr-sub-accordion-item {
       border-bottom: 1px solid #f0f0f0;
@@ -207,6 +229,10 @@
       padding: 0 0 20px 0;
     }
 
+    /* ===================================================
+       CONTENU TEXTE
+       =================================================== */
+
     .fr-accordion-body-inner p,
     .fr-sub-accordion-body-inner p {
       font-size: 14px;
@@ -250,6 +276,10 @@
     .fr-sub-accordion-body-inner strong {
       color: #1a1a1a;
     }
+
+    /* ===================================================
+       RESPONSIVE
+       =================================================== */
 
     @media (max-width: 768px) {
       .fr-accordion-wrapper {
@@ -510,7 +540,11 @@
       "type": "html",
       "id": "manual_content",
       "label": "Contenu manuel de test",
-      "info": "Laissez VIDE pour utiliser le metafield custom.faq automatiquement"
+      "info": "Laissez VIDE pour utiliser le metafield custom.faq automatiquement. Structure: H3 pour questions principales, H4 pour sous-questions."
+    },
+    {
+      "type": "paragraph",
+      "content": "💡 Cette section utilise H3 pour les accordéons principaux et H4 pour les sous-accordéons (optimisé SEO)."
     },
     {
       "type": "header",
