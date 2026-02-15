@@ -15,7 +15,7 @@
       "type": "faroush-accordion",
       "name": "FAQ Accordéon Faroush",
       "settings": {
-        "manual_content": "<h3>Question test</h3>\n<p>Réponse test</p>",
+        "manual_content": "",
         "max_width": 900,
         "margin_top": 60,
         "margin_bottom": 100,
