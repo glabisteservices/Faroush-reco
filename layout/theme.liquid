@@ -899,5 +899,31 @@ src="https://www.facebook.com/tr?id=745379928491247&ev=PageView&noscript=1"
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=689370215f6dcea901024517" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="{{ 'webflow.js' | asset_url }}" type="text/javascript"></script>
   {% render 'search_javascript' %}
+<!-- DEBUG FAROUSH METAFIELDS - À RETIRER APRÈS -->
+<div style="background:yellow; padding:20px; margin:20px; font-family:monospace;">
+  <p><strong>Page type:</strong> {{ request.page_type }}</p>
+  
+  {% if request.page_type == 'collection' %}
+    <p><strong>Collection:</strong> {{ collection.title }} ({{ collection.handle }})</p>
+    <p><strong>custom.description:</strong> 
+      {% if collection.metafields.custom.description != blank %}✅ EXISTE{% else %}❌ VIDE{% endif %}
+    </p>
+    <p><strong>custom.faq:</strong> 
+      {% if collection.metafields.custom.faq != blank %}✅ EXISTE{% else %}❌ VIDE{% endif %}
+    </p>
+  {% endif %}
+  
+  {% if request.page_type == 'page' %}
+    <p><strong>Page:</strong> {{ page.title }} ({{ page.handle }})</p>
+    <p><strong>custom.description_longue:</strong> 
+      {% if page.metafields.custom.description_longue != blank %}✅ EXISTE{% else %}❌ VIDE{% endif %}
+    </p>
+    <p><strong>custom.faq:</strong> 
+      {% if page.metafields.custom.faq != blank %}✅ EXISTE{% else %}❌ VIDE{% endif %}
+    </p>
+  {% endif %}
+</div>
+<!-- FIN DEBUG -->
+
 </body>
 </html>
