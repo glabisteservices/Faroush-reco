@@ -8,19 +8,35 @@
 {%- liquid
   assign show_content = false
   assign content_to_display = blank
+  assign debug_info = ''
   
-  if collection.metafields.custom.faq != blank and request.page_type == 'collection'
+  # Priorité 1: Contenu manuel (pour tester)
+  if section.settings.manual_content != blank
     assign show_content = true
-    assign content_to_display = collection.metafields.custom.faq
-  elsif page.metafields.custom.faq != blank and request.page_type == 'page'
-    assign show_content = true
-    assign content_to_display = page.metafields.custom.faq
-  elsif collection.metafields.custom.description != blank and request.page_type == 'collection'
-    assign show_content = true
-    assign content_to_display = collection.metafields.custom.description
-  elsif page.metafields.custom.description_longue != blank and request.page_type == 'page'
-    assign show_content = true
-    assign content_to_display = page.metafields.custom.description_longue
+    assign content_to_display = section.settings.manual_content
+    assign debug_info = 'Source: Contenu manuel'
+  # Priorité 2: Metafield collection.custom.faq
+  elsif request.page_type == 'collection' and collection != blank
+    if collection.metafields.custom.faq != blank
+      assign show_content = true
+      assign content_to_display = collection.metafields.custom.faq
+      assign debug_info = 'Source: collection.metafields.custom.faq'
+    elsif collection.metafields.custom.description != blank
+      assign show_content = true
+      assign content_to_display = collection.metafields.custom.description
+      assign debug_info = 'Source: collection.metafields.custom.description'
+    endif
+  # Priorité 3: Metafield page
+  elsif request.page_type == 'page' and page != blank
+    if page.metafields.custom.faq != blank
+      assign show_content = true
+      assign content_to_display = page.metafields.custom.faq
+      assign debug_info = 'Source: page.metafields.custom.faq'
+    elsif page.metafields.custom.description_longue != blank
+      assign show_content = true
+      assign content_to_display = page.metafields.custom.description_longue
+      assign debug_info = 'Source: page.metafields.custom.description_longue'
+    endif
   endif
 -%}
 
@@ -210,7 +226,7 @@
     .fr-sub-accordion-body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height: 0.35s ease;
+      transition: max-height 0.35s ease;
     }
 
     .fr-sub-accordion-body-inner {
@@ -316,7 +332,14 @@
         var renderedDiv = wrapper.querySelector('.fr-accordion-rendered');
         if (!rawDiv || !renderedDiv) return;
 
-        var rawHTML = rawDiv.innerHTML;
+        var rawHTML = rawDiv.innerHTML.trim();
+        
+        // Si le contenu est vide, ne rien faire
+        if (!rawHTML) {
+          console.log('Faroush Accordion: Contenu vide détecté');
+          return;
+        }
+
         var tempContainer = document.createElement('div');
         tempContainer.innerHTML = rawHTML;
 
@@ -408,159 +431,4 @@
 
         renderedDiv.querySelectorAll('.fr-accordion-h2').forEach(function(h2El) {
           h2El.addEventListener('click', function() {
-            var body = this.nextElementSibling;
-            var isOpen = this.classList.contains('fr-open');
-
-            if (isOpen) {
-              body.style.maxHeight = '0';
-              this.classList.remove('fr-open');
-            } else {
-              body.style.maxHeight = body.scrollHeight + 'px';
-              this.classList.add('fr-open');
-            }
-          });
-        });
-
-        renderedDiv.querySelectorAll('.fr-sub-accordion-h3').forEach(function(h3El) {
-          h3El.addEventListener('click', function() {
-            var body = this.nextElementSibling;
-            var isOpen = this.classList.contains('fr-open');
-            var parentBody = this.closest('.fr-accordion-body');
-
-            if (isOpen) {
-              body.style.maxHeight = '0';
-              this.classList.remove('fr-open');
-            } else {
-              body.style.maxHeight = body.scrollHeight + 'px';
-              this.classList.add('fr-open');
-            }
-
-            setTimeout(function() {
-              if (parentBody && parentBody.previousElementSibling.classList.contains('fr-open')) {
-                parentBody.style.maxHeight = parentBody.scrollHeight + 'px';
-              }
-            }, 50);
-          });
-        });
-
-        var firstH2 = renderedDiv.querySelector('.fr-accordion-h2');
-        if (firstH2) {
-          firstH2.classList.add('fr-open');
-          var firstBody = firstH2.nextElementSibling;
-          if (firstBody) {
-            firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
-
-            var firstH3 = firstBody.querySelector('.fr-sub-accordion-h3');
-            if (firstH3) {
-              firstH3.classList.add('fr-open');
-              var firstH3Body = firstH3.nextElementSibling;
-              if (firstH3Body) {
-                firstH3Body.style.maxHeight = firstH3Body.scrollHeight + 'px';
-
-                setTimeout(function() {
-                  firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
-                }, 50);
-              }
-            }
-          }
-        }
-
-        renderedDiv.querySelectorAll('.fr-accordion-toc a').forEach(function(link) {
-          link.addEventListener('click', function(e) {
-            e.preventDefault();
-            var targetId = this.getAttribute('href').substring(1);
-            var targetItem = document.getElementById(targetId);
-            if (!targetItem) return;
-
-            var h2El = targetItem.querySelector('.fr-accordion-h2');
-            if (h2El && !h2El.classList.contains('fr-open')) {
-              h2El.click();
-            }
-
-            setTimeout(function() {
-              targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-          });
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initFaroushAccordion);
-      } else {
-        initFaroushAccordion();
-      }
-
-      if (window.Shopify && window.Shopify.designMode) {
-        document.addEventListener('shopify:section:load', initFaroushAccordion);
-      }
-    })();
-  </script>
-
-{%- else -%}
-  
-  <div style="padding: 40px 20px; text-align: center; background: #f9f9f9; border: 2px dashed #ddd; margin: 20px;">
-    <p style="color: #666; font-size: 14px;">
-      ⚠️ Aucun contenu FAQ trouvé pour cette page/collection. Assurez-vous que le metafield custom.faq est bien rempli.
-    </p>
-  </div>
-
-{%- endif -%}
-
-{% schema %}
-{
-  "name": "FAQ Accordéon Faroush",
-  "tag": "section",
-  "class": "faroush-accordion-section",
-  "settings": [
-    {
-      "type": "paragraph",
-      "content": "Cette section affiche automatiquement le contenu du metafield custom.faq de la page ou collection actuelle. Assurez-vous que vos metafields sont bien configurés dans Shopify."
-    },
-    {
-      "type": "header",
-      "content": "Mise en page"
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 600,
-      "max": 1400,
-      "step": 50,
-      "unit": "px",
-      "label": "Largeur maximale",
-      "default": 900
-    },
-    {
-      "type": "range",
-      "id": "margin_top",
-      "min": 0,
-      "max": 120,
-      "step": 10,
-      "unit": "px",
-      "label": "Marge en haut",
-      "default": 60
-    },
-    {
-      "type": "range",
-      "id": "margin_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 10,
-      "unit": "px",
-      "label": "Marge en bas",
-      "default": 100
-    },
-    {
-      "type": "checkbox",
-      "id": "show_border_top",
-      "label": "Afficher une bordure en haut",
-      "default": true
-    }
-  ],
-  "presets": [
-    {
-      "name": "FAQ Accordéon Faroush"
-    }
-  ]
-}
-{% endschema %}
+            var
