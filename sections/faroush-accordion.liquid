@@ -1,0 +1,549 @@
+{% comment %}
+  ============================================================
+  FAROUSH - Section FAQ Accordéon
+  Fichier : sections/faroush-accordion.liquid
+  
+  Cette section affiche le contenu des metafields :
+  - COLLECTIONS : custom.description + custom.faq
+  - PAGES : custom.description_longue + custom.faq
+  
+  Système en accordéon avec H2 et H3 cliquables
+  ============================================================
+{% endcomment %}
+
+{%- liquid
+  assign show_description = false
+  assign show_faq = false
+  assign description_content = blank
+  assign faq_content = blank
+  
+  if request.page_type == 'collection' and collection != blank
+    if collection.metafields.custom.description != blank
+      assign show_description = true
+      assign description_content = collection.metafields.custom.description
+    endif
+    if collection.metafields.custom.faq != blank
+      assign show_faq = true
+      assign faq_content = collection.metafields.custom.faq
+    endif
+  elsif request.page_type == 'page' and page != blank
+    if page.metafields.custom.description_longue != blank
+      assign show_description = true
+      assign description_content = page.metafields.custom.description_longue
+    endif
+    if page.metafields.custom.faq != blank
+      assign show_faq = true
+      assign faq_content = page.metafields.custom.faq
+    endif
+  endif
+-%}
+
+{%- if show_description or show_faq -%}
+
+  {%- if show_description -%}
+    <div class="fr-accordion-wrapper fr-description-section">
+      <div class="fr-accordion-content-raw" style="display:none;">
+        {{ description_content }}
+      </div>
+      <div class="fr-accordion-rendered"></div>
+    </div>
+  {%- endif -%}
+
+  {%- if show_faq -%}
+    <div class="fr-accordion-wrapper fr-faq-section">
+      <div class="fr-accordion-content-raw" style="display:none;">
+        {{ faq_content }}
+      </div>
+      <div class="fr-accordion-rendered"></div>
+    </div>
+  {%- endif -%}
+
+  <style>
+    /* ===================================================
+       FAROUSH ACCORDION — BASE
+       =================================================== */
+
+    .fr-accordion-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .fr-description-section {
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    .fr-faq-section {
+      margin-top: 40px;
+      margin-bottom: 100px;
+      padding-top: 50px;
+      border-top: 1px solid #eee;
+    }
+
+    /* ===================================================
+       SOMMAIRE (Table of Contents)
+       =================================================== */
+
+    .fr-accordion-toc {
+      background: #f8f8f6;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      border-radius: 8px;
+      border: 1px solid #e8e5df;
+    }
+
+    .fr-accordion-toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .fr-accordion-toc li {
+      margin-bottom: 12px;
+    }
+
+    .fr-accordion-toc li:last-child {
+      margin-bottom: 0;
+    }
+
+    .fr-accordion-toc a {
+      color: #2a2a2a;
+      text-decoration: none;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+    }
+
+    .fr-accordion-toc a::before {
+      content: '→';
+      color: #999;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .fr-accordion-toc a:hover {
+      color: #000;
+    }
+
+    .fr-accordion-toc a:hover::before {
+      transform: translateX(3px);
+      color: #000;
+    }
+
+    /* ===================================================
+       ACCORDÉON H2 (Tiroirs principaux)
+       =================================================== */
+
+    .fr-accordion-item {
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .fr-accordion-item:first-child {
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .fr-accordion-h2 {
+      cursor: pointer;
+      padding: 18px 45px 18px 0;
+      margin: 0;
+      position: relative;
+      font-size: 1.15em;
+      font-weight: 600;
+      color: #1a1a1a;
+      line-height: 1.4;
+      transition: color 0.2s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .fr-accordion-h2:hover {
+      color: #555;
+    }
+
+    .fr-accordion-h2::after {
+      content: '+';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5em;
+      font-weight: 300;
+      color: #999;
+      transition: transform 0.3s ease;
+    }
+
+    .fr-accordion-h2.fr-open::after {
+      content: '−';
+    }
+
+    .fr-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .fr-accordion-body-inner {
+      padding: 0 0 25px 0;
+    }
+
+    /* ===================================================
+       SOUS-ACCORDÉON H3 (Tiroirs secondaires)
+       =================================================== */
+
+    .fr-sub-accordion-item {
+      border-bottom: 1px solid #f0f0f0;
+      margin-left: 10px;
+    }
+
+    .fr-sub-accordion-item:last-child {
+      border-bottom: none;
+    }
+
+    .fr-sub-accordion-h3 {
+      cursor: pointer;
+      padding: 14px 40px 14px 0;
+      margin: 0;
+      position: relative;
+      font-size: 0.95em;
+      font-weight: 500;
+      color: #333;
+      line-height: 1.4;
+      transition: color 0.2s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .fr-sub-accordion-h3:hover {
+      color: #666;
+    }
+
+    .fr-sub-accordion-h3::after {
+      content: '+';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2em;
+      font-weight: 300;
+      color: #bbb;
+      transition: transform 0.3s ease;
+    }
+
+    .fr-sub-accordion-h3.fr-open::after {
+      content: '−';
+    }
+
+    .fr-sub-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .fr-sub-accordion-body-inner {
+      padding: 0 0 20px 0;
+    }
+
+    /* ===================================================
+       CONTENU TEXTE
+       =================================================== */
+
+    .fr-accordion-body-inner p,
+    .fr-sub-accordion-body-inner p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 12px;
+    }
+
+    .fr-accordion-body-inner p:last-child,
+    .fr-sub-accordion-body-inner p:last-child {
+      margin-bottom: 0;
+    }
+
+    .fr-accordion-body-inner a,
+    .fr-sub-accordion-body-inner a {
+      color: #1a1a1a;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .fr-accordion-body-inner a:hover,
+    .fr-sub-accordion-body-inner a:hover {
+      color: #666;
+    }
+
+    .fr-accordion-body-inner ul,
+    .fr-sub-accordion-body-inner ul {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .fr-accordion-body-inner li,
+    .fr-sub-accordion-body-inner li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 6px;
+    }
+
+    .fr-accordion-body-inner strong,
+    .fr-sub-accordion-body-inner strong {
+      color: #1a1a1a;
+    }
+
+    /* ===================================================
+       RESPONSIVE
+       =================================================== */
+
+    @media (max-width: 768px) {
+      .fr-accordion-wrapper {
+        padding: 0 15px;
+      }
+
+      .fr-accordion-h2 {
+        font-size: 1em;
+        padding: 15px 40px 15px 0;
+      }
+
+      .fr-sub-accordion-h3 {
+        font-size: 0.9em;
+        padding: 12px 35px 12px 0;
+      }
+
+      .fr-sub-accordion-item {
+        margin-left: 5px;
+      }
+
+      .fr-accordion-toc {
+        padding: 18px 20px;
+      }
+
+      .fr-description-section {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      .fr-faq-section {
+        margin-top: 30px;
+        margin-bottom: 60px;
+        padding-top: 30px;
+      }
+    }
+  </style>
+
+  <script>
+    if (!window.faroushAccordionInitialized) {
+      window.faroushAccordionInitialized = true;
+
+      function initFaroushAccordions() {
+        document.querySelectorAll('.fr-accordion-wrapper').forEach(function(wrapper) {
+          if (wrapper.dataset.initialized) return;
+          wrapper.dataset.initialized = 'true';
+
+          var rawDiv = wrapper.querySelector('.fr-accordion-content-raw');
+          var renderedDiv = wrapper.querySelector('.fr-accordion-rendered');
+          if (!rawDiv || !renderedDiv) return;
+
+          var rawHTML = rawDiv.innerHTML;
+          var tempContainer = document.createElement('div');
+          tempContainer.innerHTML = rawHTML;
+
+          var children = Array.from(tempContainer.childNodes);
+          var structure = [];
+          var tocItems = [];
+          var currentH2 = null;
+          var currentH3 = null;
+          var h2Index = 0;
+
+          children.forEach(function(node) {
+            if (node.nodeType === 1 && node.tagName === 'H2') {
+              h2Index++;
+              var h2Id = 'fr-section-' + h2Index + '-' + Math.random().toString(36).substr(2, 5);
+              currentH2 = {
+                tag: 'h2',
+                text: node.textContent,
+                id: h2Id,
+                children: [],
+                content: []
+              };
+              currentH3 = null;
+              structure.push(currentH2);
+              tocItems.push({ text: node.textContent, id: h2Id });
+            }
+            else if (node.nodeType === 1 && node.tagName === 'H3') {
+              if (!currentH2) {
+                h2Index++;
+                var autoH2Id = 'fr-section-' + h2Index + '-' + Math.random().toString(36).substr(2, 5);
+                currentH2 = {
+                  tag: 'h2',
+                  text: 'Contenu',
+                  id: autoH2Id,
+                  children: [],
+                  content: []
+                };
+                structure.push(currentH2);
+              }
+              currentH3 = {
+                tag: 'h3',
+                text: node.textContent,
+                content: []
+              };
+              currentH2.children.push(currentH3);
+            }
+            else {
+              var htmlContent = (node.nodeType === 1) ? node.outerHTML : (node.textContent.trim() ? node.textContent : '');
+              if (htmlContent) {
+                if (currentH3) {
+                  currentH3.content.push(htmlContent);
+                } else if (currentH2) {
+                  currentH2.content.push(htmlContent);
+                }
+              }
+            }
+          });
+
+          var outputHTML = '';
+
+          if (tocItems.length > 1) {
+            outputHTML += '<nav class="fr-accordion-toc"><ul>';
+            tocItems.forEach(function(item) {
+              outputHTML += '<li><a href="#' + item.id + '">' + item.text + '</a></li>';
+            });
+            outputHTML += '</ul></nav>';
+          }
+
+          structure.forEach(function(h2Item, idx) {
+            outputHTML += '<div class="fr-accordion-item" id="' + h2Item.id + '">';
+            outputHTML += '<h2 class="fr-accordion-h2">' + h2Item.text + '</h2>';
+            outputHTML += '<div class="fr-accordion-body"><div class="fr-accordion-body-inner">';
+
+            if (h2Item.content.length > 0) {
+              outputHTML += h2Item.content.join('');
+            }
+
+            h2Item.children.forEach(function(h3Item, h3Idx) {
+              outputHTML += '<div class="fr-sub-accordion-item">';
+              outputHTML += '<h3 class="fr-sub-accordion-h3">' + h3Item.text + '</h3>';
+              outputHTML += '<div class="fr-sub-accordion-body"><div class="fr-sub-accordion-body-inner">';
+              outputHTML += h3Item.content.join('');
+              outputHTML += '</div></div></div>';
+            });
+
+            outputHTML += '</div></div></div>';
+          });
+
+          renderedDiv.innerHTML = outputHTML;
+
+          renderedDiv.querySelectorAll('.fr-accordion-h2').forEach(function(h2El) {
+            h2El.addEventListener('click', function() {
+              var body = this.nextElementSibling;
+              var isOpen = this.classList.contains('fr-open');
+
+              if (isOpen) {
+                body.style.maxHeight = '0';
+                this.classList.remove('fr-open');
+              } else {
+                body.style.maxHeight = body.scrollHeight + 'px';
+                this.classList.add('fr-open');
+              }
+            });
+          });
+
+          renderedDiv.querySelectorAll('.fr-sub-accordion-h3').forEach(function(h3El) {
+            h3El.addEventListener('click', function() {
+              var body = this.nextElementSibling;
+              var isOpen = this.classList.contains('fr-open');
+              var parentBody = this.closest('.fr-accordion-body');
+
+              if (isOpen) {
+                body.style.maxHeight = '0';
+                this.classList.remove('fr-open');
+              } else {
+                body.style.maxHeight = body.scrollHeight + 'px';
+                this.classList.add('fr-open');
+              }
+
+              setTimeout(function() {
+                if (parentBody && parentBody.previousElementSibling.classList.contains('fr-open')) {
+                  parentBody.style.maxHeight = parentBody.scrollHeight + 'px';
+                }
+              }, 50);
+            });
+          });
+
+          var firstH2 = renderedDiv.querySelector('.fr-accordion-h2');
+          if (firstH2) {
+            firstH2.classList.add('fr-open');
+            var firstBody = firstH2.nextElementSibling;
+            if (firstBody) {
+              firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
+
+              var firstH3 = firstBody.querySelector('.fr-sub-accordion-h3');
+              if (firstH3) {
+                firstH3.classList.add('fr-open');
+                var firstH3Body = firstH3.nextElementSibling;
+                if (firstH3Body) {
+                  firstH3Body.style.maxHeight = firstH3Body.scrollHeight + 'px';
+
+                  setTimeout(function() {
+                    firstBody.style.maxHeight = firstBody.scrollHeight + 'px';
+                  }, 50);
+                }
+              }
+            }
+          }
+
+          renderedDiv.querySelectorAll('.fr-accordion-toc a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              var targetId = this.getAttribute('href').substring(1);
+              var targetItem = document.getElementById(targetId);
+              if (!targetItem) return;
+
+              var h2El = targetItem.querySelector('.fr-accordion-h2');
+              if (h2El && !h2El.classList.contains('fr-open')) {
+                h2El.click();
+              }
+
+              setTimeout(function() {
+                targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100);
+            });
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFaroushAccordions);
+      } else {
+        initFaroushAccordions();
+      }
+
+      if (window.Shopify && window.Shopify.designMode) {
+        document.addEventListener('shopify:section:load', initFaroushAccordions);
+      }
+    }
+  </script>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ Accordéon Faroush",
+  "tag": "section",
+  "class": "faroush-accordion-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Cette section affiche automatiquement le contenu des metafields custom.faq et custom.description (collections) ou custom.description_longue (pages). Aucune configuration nécessaire."
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Accordéon Faroush"
+    }
+  ]
+}
+{% endschema %}
