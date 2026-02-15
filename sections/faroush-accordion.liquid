@@ -9,9 +9,18 @@
   assign show_content = false
   assign content_to_display = blank
   
-  if section.settings.content_source != blank
+  if collection.metafields.custom.faq != blank and request.page_type == 'collection'
     assign show_content = true
-    assign content_to_display = section.settings.content_source
+    assign content_to_display = collection.metafields.custom.faq
+  elsif page.metafields.custom.faq != blank and request.page_type == 'page'
+    assign show_content = true
+    assign content_to_display = page.metafields.custom.faq
+  elsif collection.metafields.custom.description != blank and request.page_type == 'collection'
+    assign show_content = true
+    assign content_to_display = collection.metafields.custom.description
+  elsif page.metafields.custom.description_longue != blank and request.page_type == 'page'
+    assign show_content = true
+    assign content_to_display = page.metafields.custom.description_longue
   endif
 -%}
 
@@ -201,7 +210,7 @@
     .fr-sub-accordion-body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.35s ease;
+      transition: max-height: 0.35s ease;
     }
 
     .fr-sub-accordion-body-inner {
@@ -491,7 +500,7 @@
   
   <div style="padding: 40px 20px; text-align: center; background: #f9f9f9; border: 2px dashed #ddd; margin: 20px;">
     <p style="color: #666; font-size: 14px;">
-      ⚠️ Veuillez sélectionner un metafield dans les paramètres de la section
+      ⚠️ Aucun contenu FAQ trouvé pour cette page/collection. Assurez-vous que le metafield custom.faq est bien rempli.
     </p>
   </div>
 
@@ -504,14 +513,8 @@
   "class": "faroush-accordion-section",
   "settings": [
     {
-      "type": "header",
-      "content": "Contenu"
-    },
-    {
-      "type": "richtext",
-      "id": "content_source",
-      "label": "Contenu de l'accordéon",
-      "info": "Connectez ici votre metafield custom.faq ou saisissez du contenu directement. Utilisez des titres H2 et H3 pour créer les accordéons."
+      "type": "paragraph",
+      "content": "Cette section affiche automatiquement le contenu du metafield custom.faq de la page ou collection actuelle. Assurez-vous que vos metafields sont bien configurés dans Shopify."
     },
     {
       "type": "header",
