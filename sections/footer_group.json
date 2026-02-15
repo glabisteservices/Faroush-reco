@@ -98,55 +98,12 @@
         "text_payment_method": "Payment Method",
         "menu": "footer"
       }
-    },
-    "bloc_de_texte_dtj6eg": {
-      "type": "bloc_de_texte",
-      "blocks": {
-        "sous_titre_H79Ne8": {
-          "type": "sous-titre",
-          "settings": {
-            "text_heading": ""
-          }
-        },
-        "grand_texte_3Anwgk": {
-          "type": "grand-texte",
-          "settings": {
-            "text_heading": ""
-          }
-        },
-        "paragraphe_mPwqVB": {
-          "type": "paragraphe",
-          "settings": {
-            "text_paragraph": ""
-          }
-        },
-        "bouton_QAV6bL": {
-          "type": "bouton",
-          "settings": {
-            "text_text": "",
-            "url_link": "",
-            "button_type": "filled",
-            "bg_color": "#ec8451",
-            "text_color": "#f5f2d9",
-            "outline_color": "#ec8451"
-          }
-        }
-      },
-      "block_order": [
-        "sous_titre_H79Ne8",
-        "grand_texte_3Anwgk",
-        "paragraphe_mPwqVB",
-        "bouton_QAV6bL"
-      ],
-      "name": "Bloc de texte",
-      "settings": {}
     }
   },
   "order": [
     "faroush_accordion_3MM9Nq",
     "picto_v2_G9TDwa",
     "newsletter_Km3ayd",
-    "footer",
-    "bloc_de_texte_dtj6eg"
+    "footer"
   ]
 }
