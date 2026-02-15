@@ -1,6 +1,7 @@
 {% comment %}
   ============================================================
-  FAROUSH - Section FAQ Accordéon - VERSION CORRIGÉE
+  FAROUSH - Section FAQ Accordéon
+  Metafield : custom.faq_html (Multi-line text)
   ============================================================
 {% endcomment %}
 
@@ -14,17 +15,17 @@
     assign content_to_display = section.settings.manual_content
     assign is_manual = true
   elsif request.page_type == 'collection' and collection != blank
-    if collection.metafields.custom.faq != blank
+    if collection.metafields.custom.faq_html != blank
       assign show_content = true
-      assign content_to_display = collection.metafields.custom.faq
+      assign content_to_display = collection.metafields.custom.faq_html
     elsif collection.metafields.custom.description != blank
       assign show_content = true
       assign content_to_display = collection.metafields.custom.description
     endif
   elsif request.page_type == 'page' and page != blank
-    if page.metafields.custom.faq != blank
+    if page.metafields.custom.faq_html != blank
       assign show_content = true
-      assign content_to_display = page.metafields.custom.faq
+      assign content_to_display = page.metafields.custom.faq_html
     elsif page.metafields.custom.description_longue != blank
       assign show_content = true
       assign content_to_display = page.metafields.custom.description_longue
@@ -36,11 +37,7 @@
 
   <div class="fr-accordion-wrapper fr-section-wrapper">
     <div class="fr-accordion-content-raw" style="display:none;">
-      {% if is_manual %}
-        {{ content_to_display }}
-      {% else %}
-        {{ content_to_display.value | default: content_to_display }}
-      {% endif %}
+      {{ content_to_display }}
     </div>
     <div class="fr-accordion-rendered"></div>
   </div>
@@ -540,11 +537,11 @@
       "type": "html",
       "id": "manual_content",
       "label": "Contenu manuel de test",
-      "info": "Laissez VIDE pour utiliser le metafield custom.faq automatiquement. Structure: H3 pour questions principales, H4 pour sous-questions."
+      "info": "Laissez VIDE pour utiliser le metafield custom.faq_html automatiquement. Structure: H3 pour questions principales, H4 pour sous-questions."
     },
     {
       "type": "paragraph",
-      "content": "💡 Cette section utilise H3 pour les accordéons principaux et H4 pour les sous-accordéons (optimisé SEO)."
+      "content": "💡 Cette section utilise le metafield custom.faq_html. Utilisez H3 pour les accordéons principaux et H4 pour les sous-accordéons."
     },
     {
       "type": "header",
