@@ -11,17 +11,6 @@
   "type": "footer",
   "name": "Footer Group",
   "sections": {
-    "faroush_accordion_3MM9Nq": {
-      "type": "faroush-accordion",
-      "name": "FAQ Accordéon Faroush",
-      "settings": {
-        "manual_content": "",
-        "max_width": 900,
-        "margin_top": 60,
-        "margin_bottom": 100,
-        "show_border_top": true
-      }
-    },
     "picto_v2_G9TDwa": {
       "type": "picto-V2",
       "blocks": {
@@ -101,7 +90,6 @@
     }
   },
   "order": [
-    "faroush_accordion_3MM9Nq",
     "picto_v2_G9TDwa",
     "newsletter_Km3ayd",
     "footer"
