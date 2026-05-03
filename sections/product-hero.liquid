@@ -453,8 +453,8 @@
           </span>
         </div>
       {% endif %}
-
-      <div class="add-to-cart-section">
+  {% render 'faroush-size-finder' %}
+<div class="add-to-cart-section">
         <button
           class="add-to-cart-button"
           :disabled="!selectedVariant.available"
