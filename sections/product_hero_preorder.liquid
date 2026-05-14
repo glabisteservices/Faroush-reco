@@ -848,7 +848,7 @@
       {% unless product.has_only_default_variant %}
         {% for option in product.options_with_values %}
           <div class="variant-selector">
-            {% if option.name contains 'aille' or option.name contains 'Taille' or option.name contains 'Pointure' %}
+            {% if option.name contains 'aille' or option.name contains 'Taille' or option.name contains 'Pointure' or option.name contains 'Size' or option.name contains 'size' %}
               <div class="variant-label-row">
                 <label class="variant-label">{{ option.name }}</label>
                 <button type="button" class="size-guide-button" onclick="openSizeGuide()">
