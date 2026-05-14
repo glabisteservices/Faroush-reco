@@ -1195,7 +1195,8 @@ function handleTouchEnd(e) {
 }
 // === GUIDE DES TAILLES — TABS FR / EN ===
 
-const SIZE_GUIDE_PDF = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-foot-measure-en.pdf?v=1778045887';
+const SIZE_GUIDE_PDF_FR = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-tableau-tailles-final-tableau-site_page-0001.jpg?v=1778047044';
+const SIZE_GUIDE_PDF_EN = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-size-chart-en_page-0001.jpg?v=1778046718';
 const sizeGuideLoaded = { fr: false, en: false };
 
 function openSizeGuide() {
@@ -1227,7 +1228,8 @@ function switchSizeGuideTab(lang) {
 function loadSizeGuideContent(lang) {
   const url = lang === 'fr' ? '/pages/guide-des-tailles' : '/pages/size-guide';
   const contentEl = document.getElementById('sizeGuideContent-' + lang);
-  const printLabel = lang === 'fr' ? 'Imprimer' : 'Print';
+  const printLabel = lang === 'fr' ? 'Imprimer notre guide' : 'Print our guide';
+  const printUrl = lang === 'fr' ? SIZE_GUIDE_PDF_FR : SIZE_GUIDE_PDF_EN;
 
   contentEl.innerHTML = lang === 'fr' ? '<p>Chargement...</p>' : '<p>Loading...</p>';
 
@@ -1252,14 +1254,21 @@ function loadSizeGuideContent(lang) {
           : '<p>Unable to load the size guide.</p>';
       }
 
-      // Ajouter le bouton Imprimer / Print
+      // Créer le bouton Imprimer / Print
       const printBtn = document.createElement('button');
       printBtn.className = 'print-btn';
       printBtn.textContent = printLabel;
       printBtn.onclick = function() {
-        window.open(SIZE_GUIDE_PDF, '_blank');
+        window.open(printUrl, '_blank');
       };
-      contentEl.appendChild(printBtn);
+
+      // Insérer juste après le premier titre trouvé dans le contenu
+      const firstHeading = contentEl.querySelector('h1, h2, h3, h4');
+      if (firstHeading) {
+        firstHeading.insertAdjacentElement('afterend', printBtn);
+      } else {
+        contentEl.insertBefore(printBtn, contentEl.firstChild);
+      }
 
       sizeGuideLoaded[lang] = true;
     })
