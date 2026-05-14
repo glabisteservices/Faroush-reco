@@ -852,7 +852,7 @@
               <div class="variant-label-row">
                 <label class="variant-label">{{ option.name }}</label>
                 <button type="button" class="size-guide-button" onclick="openSizeGuide()">
-                  Guide des tailles
+                  {% if request.locale.iso_code == 'fr' %}Guide des tailles{% else %}Size guide{% endif %}
                 </button>
               </div>
             {% else %}
