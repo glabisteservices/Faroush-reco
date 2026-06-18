@@ -8,7 +8,6 @@
     min-height: 90vh;
     padding: 0 20px 2rem 20px; /* Padding-top à 0 sur desktop */
   }
-
   @media screen and (max-width: 768px) {
     .product-header_layout {
       grid-template-columns: 1fr;
@@ -20,7 +19,6 @@
       align-items: start;
     }
   }
-
   /* Gallery Styles */
   .product-gallery-container {
     position: relative;
@@ -29,14 +27,12 @@
     display: flex;
     flex-direction: column;
   }
-
   @media screen and (max-width: 768px) {
     .product-gallery-container {
       height: auto;
       min-height: 300px;
     }
   }
-
   .product-gallery-main {
     position: relative;
     width: 100%;
@@ -47,7 +43,6 @@
     background-color: transparent;
     display: flex;
   }
-
   .gallery-slide {
     width: auto;
     height: 100%;
@@ -60,45 +55,38 @@
     justify-content: center;
     align-items: center;
   }
-
   @media screen and (max-width: 768px) {
     .gallery-slide {
       width: 100%;
       min-height: 300px;
     }
   }
-
   .gallery-image {
     width: auto;
     height: 100%;
     object-fit: contain;
     object-position: center;
   }
-
   .gallery-slides-container {
     display: flex;
     width: auto;
     height: 100%;
     transition: transform 0.3s ease;
   }
-
   @media screen and (max-width: 768px) {
     .gallery-slides-container {
       width: 100%;
       transition: transform 0.3s ease;
     }
   }
-
   .gallery-slide:not(:last-child) {
     margin-right: 1rem;
   }
-
   @media screen and (max-width: 768px) {
     .gallery-slide:not(:last-child) {
       margin-right: 0;
     }
   }
-
   /* Navigation Arrows */
   .gallery-navigation {
     position: absolute;
@@ -108,13 +96,11 @@
     gap: 0.5rem;
     z-index: 2;
   }
-
   @media screen and (max-width: 768px) {
     .gallery-navigation {
       display: none; /* Masquer les flèches sur mobile */
     }
   }
-
   .nav-arrow {
     display: flex;
     align-items: center;
@@ -128,27 +114,22 @@
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
   }
-
   .nav-arrow:hover {
     background-color: #6e612b;
     color: #f5f2d9;
   }
-
   .nav-arrow:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
   .nav-arrow svg {
     width: 1.2rem;
     height: 1.2rem;
     color: currentColor;
   }
-
   .nav-arrow.prev svg {
     transform: rotate(180deg);
   }
-
   /* Thumbnails */
   .product-thumbnails {
     display: flex;
@@ -158,11 +139,9 @@
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
   }
-
   .product-thumbnails::-webkit-scrollbar {
     display: none; /* Chrome/Safari */
   }
-
   .thumbnail-item {
     flex-shrink: 0;
     width: auto;
@@ -173,18 +152,15 @@
     border: 2px solid transparent;
     transition: border-color 0.3s ease;
   }
-
   .thumbnail-item.active {
     border-color: #6e612b;
   }
-
   .thumbnail-image {
     width: auto;
     height: 100%;
     object-fit: cover;
     object-position: center;
   }
-
   /* Product Details */
   .product-header_product-details {
     display: flex;
@@ -194,7 +170,6 @@
     height: auto;
     overflow-y: visible;
   }
-
   @media screen and (max-width: 768px) {
     .product-header_product-details {
       height: auto;
@@ -205,7 +180,6 @@
       overflow-y: visible;
     }
   }
-
   /* Titre du produit - Protection renforcée SEULEMENT pour la section product-hero */
   .product-header_component .product-header_product-details .product-title,
   .product-header_component .product-header_product-details h1.product-title,
@@ -234,7 +208,6 @@
     top: auto !important;
     bottom: auto !important;
   }
-
   @media screen and (max-width: 768px) {
     .product-header_component .product-header_product-details .product-title,
     .product-header_component .product-header_product-details h1.product-title,
@@ -242,40 +215,34 @@
       font-size: 1.5rem !important;
     }
   }
-
   .product-price-wrapper {
     display: flex;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
   }
-
   .product-price {
     font-family: Karla, sans-serif;
     color: #6e612b;
     font-size: 1.5rem;
     font-weight: 600;
   }
-
   @media screen and (max-width: 768px) {
     .product-price {
       font-size: 1.3rem;
     }
   }
-
   .product-compare-price {
     font-family: Karla, sans-serif;
     color: #9e8c73;
     font-size: 1.2rem;
     text-decoration: line-through;
   }
-
   @media screen and (max-width: 768px) {
     .product-compare-price {
       font-size: 1rem;
     }
   }
-
   .product-item_tag {
     padding: 0.3rem 1rem;
     border-radius: 8px;
@@ -284,7 +251,6 @@
     font-size: 0.85rem;
     font-weight: 500;
   }
-
   .stock-status {
     font-family: Karla, sans-serif;
     font-size: 0.9rem;
@@ -292,27 +258,22 @@
     text-align: center;
     border-radius: 5px;
   }
-
   .in-stock {
     background-color: #e8f5e8;
     color: #2d5a2d;
   }
-
   .out-of-stock {
     background-color: #ffe8e8;
     color: #8b0000;
   }
-
   .product-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-
   .product-tags .product-item_tag {
     background-color: #9e8c73;
   }
-
   .product-description {
     font-family: Karla, sans-serif;
     color: #6e612b;
@@ -320,7 +281,6 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
-
   /* Variant Selection */
   .variant-selector {
     display: flex;
@@ -328,14 +288,12 @@
     gap: 0.5rem;
     width: 100%;
   }
-
   .variant-label {
     font-family: Karla, sans-serif;
     color: #6e612b;
     font-weight: 600;
     font-size: 1rem;
   }
-
   .variant-select {
     padding: 0.75rem 1rem;
     border: 1px solid #6e612b;
@@ -348,7 +306,6 @@
     width: 100%;
     box-sizing: border-box;
   }
-
   /* Add to Cart */
   .add-to-cart-button {
     width: 100%;
@@ -364,11 +321,9 @@
     transition: all 0.3s ease;
     box-sizing: border-box;
   }
-
   .add-to-cart-button:hover {
     background-color: #d35400;
   }
-
   .add-to-cart-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -392,7 +347,6 @@
     color: #721c24;
     border: 1px solid #f5c6cb;
   }
-
   /* Shipping Info */
   .shipping-info {
     display: flex;
@@ -404,14 +358,12 @@
     width: 100%;
     box-sizing: border-box;
   }
-
   .shipping-icon {
     width: 1.5rem;
     height: 1.5rem;
     color: #6e612b;
     flex-shrink: 0;
   }
-
   .shipping-text {
     font-family: Karla, sans-serif;
     color: #6e612b;
@@ -662,7 +614,6 @@
       max-height: calc(85vh - 60px);
     }
   }
-
   /* === TABS GUIDE DES TAILLES === */
   .size-guide-tabs {
     display: flex;
@@ -717,7 +668,6 @@
   .print-btn:hover {
     background: #5a4f23;
   }
-
   @media screen and (max-width: 768px) {
     .product-pictos-container {
       display: grid !important;
@@ -727,7 +677,6 @@
       width: 100% !important;
       max-width: 100% !important;
     }
-
     .picto-produit {
       min-width: 70px;
       height: 60px;
@@ -771,7 +720,6 @@
 <!-- Section principale avec Alpine.js -->
 <div class="product-header_component" x-data="productForm()">
   <div class="product-header_layout">
-
     <!-- Gallery Section -->
     <div class="product-gallery-container">
       <div class="product-gallery-main" id="gallery-main">
@@ -789,7 +737,6 @@
             </div>
           {% endfor %}
         </div>
-
         <!-- Navigation Arrows -->
         {% if product.media.size > 1 %}
           <div class="gallery-navigation">
@@ -806,7 +753,6 @@
           </div>
         {% endif %}
       </div>
-
       <!-- Thumbnails -->
       {% if product.media.size > 1 %}
         <div class="product-thumbnails">
@@ -823,13 +769,10 @@
         </div>
       {% endif %}
     </div>
-
     <!-- Product Details Section -->
     <div class="product-header_product-details">
-
       <!-- Product Title -->
       <h1 class="product-title product-main-title">{{ product.title }}</h1>
-
       <!-- Price -->
       <div class="product-price-wrapper">
         <span class="product-price" x-text="formatPrice(selectedVariant.price)">{{ product.selected_or_first_available_variant.price | money }}</span>
@@ -838,12 +781,10 @@
               x-text="formatPrice(selectedVariant.compare_at_price)">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
         <span class="product-item_tag" x-show="selectedVariant.compare_at_price > selectedVariant.price">Sale</span>
       </div>
-
       <!-- Product Description -->
       {% if product.description != blank %}
         <div class="product-description">{{ product.description }}</div>
       {% endif %}
-
       <!-- Variant Selection -->
       {% unless product.has_only_default_variant %}
         {% for option in product.options_with_values %}
@@ -868,7 +809,6 @@
           </div>
         {% endfor %}
       {% endunless %}
-
       <!-- Shipping Info -->
       <div class="shipping-info">
         <svg class="shipping-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -882,7 +822,6 @@
           {% endif %}
         </span>
       </div>
-
       <!-- Add to Cart Section -->
       <div class="add-to-cart-section">
         <button type="button"
@@ -894,7 +833,6 @@
           </span>
           <span x-show="isLoading">Ajout en cours...</span>
         </button>
-
         <!-- Message de feedback -->
         <div x-show="message.show"
              x-transition
@@ -932,21 +870,17 @@
           {% endif %}
         {% endfor %}
       </div>
-
     </div>
   </div>
-
   <!-- Popup Guide des tailles -->
   <div class="size-guide-overlay" id="sizeGuideOverlay" onclick="closeSizeGuide(event)">
     <div class="size-guide-popup" onclick="event.stopPropagation()">
       <button class="size-guide-close" onclick="closeSizeGuide()">&times;</button>
-
       <!-- Tabs FR / EN -->
       <div class="size-guide-tabs">
         <button class="tab-btn active" id="tab-btn-fr" onclick="switchSizeGuideTab('fr')">Français</button>
         <button class="tab-btn" id="tab-btn-en" onclick="switchSizeGuideTab('en')">English</button>
       </div>
-
       <!-- Contenus -->
       <div class="size-guide-content">
         <div class="tab-content active" id="sizeGuideContent-fr">
@@ -956,10 +890,8 @@
           <p>Loading...</p>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>
 <script>
 // Alpine.js Component pour le formulaire produit
@@ -1033,12 +965,10 @@ document.addEventListener('alpine:init', () => {
         if (response.ok) {
           // Succès - Mise à jour du compteur puis redirection vers la page panier
           this.$dispatch('cartupdated');
-
           // Redirection vers la page panier après un court délai
           setTimeout(() => {
             window.location.href = '/cart';
           }, 300);
-
         } else {
           // Erreur du serveur
           throw new Error(result.message || result.description || 'Erreur lors de l\'ajout au panier');
@@ -1056,7 +986,6 @@ document.addEventListener('alpine:init', () => {
         text: text,
         type: type
       };
-
       // Masquer automatiquement après 3 secondes
       setTimeout(() => {
         this.hideMessage();
@@ -1098,7 +1027,6 @@ function setCurrentImage(index) {
 function updateGalleryDisplay() {
   const slidesContainer = document.getElementById('slides-container');
   const slides = document.querySelectorAll('.gallery-slide');
-
   if (slidesContainer && slides.length > 0) {
     if (isMobile()) {
       // Sur mobile, chaque slide fait 100% de largeur
@@ -1115,13 +1043,11 @@ function updateGalleryDisplay() {
       slidesContainer.style.transform = `translateX(-${offset}px)`;
     }
   }
-
   // Mettre à jour les thumbnails
   const thumbnails = document.querySelectorAll('.thumbnail-item');
   thumbnails.forEach((thumb, index) => {
     thumb.classList.toggle('active', index === currentImageIndex);
   });
-
   // Auto-scroll vers la thumbnail active seulement si nécessaire
   const activeThumbnail = document.querySelector('.thumbnail-item.active');
   if (activeThumbnail && !isMobile()) {
@@ -1136,9 +1062,7 @@ function updateGalleryDisplay() {
 // Gestion du swipe sur mobile
 function initializeSwipe() {
   const galleryMain = document.getElementById('gallery-main');
-
   if (!galleryMain || !isMobile()) return;
-
   // Touch events avec passive: true pour ne pas bloquer le scroll
   galleryMain.addEventListener('touchstart', handleTouchStart, { passive: true });
   galleryMain.addEventListener('touchmove', handleTouchMove, { passive: true });
@@ -1149,19 +1073,16 @@ function handleTouchStart(e) {
   startY = e.touches[0].clientY;
   isDragging = true;
   isSwipeActive = false;
-
   // Réinitialiser les positions pour éviter les conflits
   currentX = startX;
   currentY = startY;
 }
 function handleTouchMove(e) {
   if (!isDragging) return;
-
   currentX = e.touches[0].clientX;
   currentY = e.touches[0].clientY;
   const diffX = Math.abs(currentX - startX);
   const diffY = Math.abs(currentY - startY);
-
   // Seulement déclencher le swipe si c'est clairement un mouvement horizontal intentionnel
   if (diffX > 50 && diffX > diffY * 3) {
     isSwipeActive = true;
@@ -1175,12 +1096,10 @@ function handleTouchEnd(e) {
   if (!isDragging) {
     return;
   }
-
   // Seulement traiter le swipe si on a vraiment détecté un mouvement horizontal intentionnel
   if (isSwipeActive) {
     const diffX = currentX - startX;
     const threshold = 50;
-
     if (Math.abs(diffX) > threshold) {
       if (diffX > 0) {
         previousImage(); // Swipe vers la droite
@@ -1189,50 +1108,40 @@ function handleTouchEnd(e) {
       }
     }
   }
-
   isDragging = false;
   isSwipeActive = false;
 }
 // === GUIDE DES TAILLES — TABS FR / EN ===
-
-const SIZE_GUIDE_PDF_FR = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-tableau-tailles-final-tableau-site_page-0001.jpg?v=1778047044';
-const SIZE_GUIDE_PDF_EN = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-size-chart-en_page-0001.jpg?v=1778046718';
+const SIZE_GUIDE_PDF_FR = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-mesure-pied-v8.pdf?v=1781782391';
+const SIZE_GUIDE_PDF_EN = 'https://cdn.shopify.com/s/files/1/0918/5460/2626/files/faroush-foot-measure-en.pdf?v=1778045887';
 const sizeGuideLoaded = { fr: false, en: false };
-
 function openSizeGuide() {
   const overlay = document.getElementById('sizeGuideOverlay');
   overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-
   // Charger le contenu FR par défaut si pas encore chargé
   if (!sizeGuideLoaded.fr) {
     loadSizeGuideContent('fr');
   }
 }
-
 function switchSizeGuideTab(lang) {
   // Mettre à jour les boutons
   document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
   document.getElementById('tab-btn-' + lang).classList.add('active');
-
   // Mettre à jour les panneaux de contenu
   document.querySelectorAll('.tab-content').forEach(function(panel) { panel.classList.remove('active'); });
   document.getElementById('sizeGuideContent-' + lang).classList.add('active');
-
   // Charger si pas encore chargé
   if (!sizeGuideLoaded[lang]) {
     loadSizeGuideContent(lang);
   }
 }
-
 function loadSizeGuideContent(lang) {
   const url = lang === 'fr' ? '/pages/guide-des-tailles' : '/pages/size-guide';
   const contentEl = document.getElementById('sizeGuideContent-' + lang);
   const printLabel = lang === 'fr' ? 'Imprimer notre guide' : 'Print our guide';
   const printUrl = lang === 'fr' ? SIZE_GUIDE_PDF_FR : SIZE_GUIDE_PDF_EN;
-
   contentEl.innerHTML = lang === 'fr' ? '<p>Chargement...</p>' : '<p>Loading...</p>';
-
   fetch(url)
     .then(function(response) { return response.text(); })
     .then(function(data) {
@@ -1245,7 +1154,6 @@ function loadSizeGuideContent(lang) {
         doc.querySelector('.content') ||
         doc.querySelector('.page') ||
         doc.querySelector('body');
-
       if (pageContent) {
         contentEl.innerHTML = pageContent.innerHTML;
       } else {
@@ -1253,7 +1161,6 @@ function loadSizeGuideContent(lang) {
           ? '<p>Impossible de charger le guide des tailles.</p>'
           : '<p>Unable to load the size guide.</p>';
       }
-
       // Créer le bouton Imprimer / Print
       const printBtn = document.createElement('button');
       printBtn.className = 'print-btn';
@@ -1261,7 +1168,6 @@ function loadSizeGuideContent(lang) {
       printBtn.onclick = function() {
         window.open(printUrl, '_blank');
       };
-
       // Insérer juste après le premier titre trouvé dans le contenu
       const firstHeading = contentEl.querySelector('h1, h2, h3, h4');
       if (firstHeading) {
@@ -1269,7 +1175,6 @@ function loadSizeGuideContent(lang) {
       } else {
         contentEl.insertBefore(printBtn, contentEl.firstChild);
       }
-
       sizeGuideLoaded[lang] = true;
     })
     .catch(function(error) {
@@ -1279,7 +1184,6 @@ function loadSizeGuideContent(lang) {
         : '<p>Error loading content.</p>';
     });
 }
-
 function closeSizeGuide(event) {
   if (!event || event.target === document.getElementById('sizeGuideOverlay') || (event.target && event.target.classList.contains('size-guide-close'))) {
     const overlay = document.getElementById('sizeGuideOverlay');
@@ -1292,12 +1196,10 @@ function closeSizeGuide(event) {
     document.getElementById('sizeGuideContent-fr').classList.add('active');
   }
 }
-
 // Initialisation
 document.addEventListener('DOMContentLoaded', function() {
   updateGalleryDisplay();
   initializeSwipe();
-
   // Protection renforcée pour le titre du produit
   const protectTitle = () => {
     const titles = document.querySelectorAll('.product-header_component .product-title, .product-header_component .product-main-title, .product-header_component h1.product-title');
@@ -1317,7 +1219,6 @@ document.addEventListener('DOMContentLoaded', function() {
           'margin': '0',
           'padding': '0'
         };
-
         Object.keys(styles).forEach(property => {
           title.style.setProperty(property, styles[property], 'important');
         });
@@ -1329,7 +1230,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.innerWidth <= 768) {
       // Sélectionner toutes les images dans les pictos
       const pictoImages = document.querySelectorAll('.product-pictos-container img, .picto-produit img');
-
       pictoImages.forEach(img => {
         img.style.setProperty('width', 'auto', 'important');
         img.style.setProperty('height', '30px', 'important');
@@ -1361,7 +1261,6 @@ document.addEventListener('DOMContentLoaded', function() {
       wrapper.style.setProperty('width', '100%', 'important');
     });
   };
-
   // Exécuter immédiatement et à intervalles
   protectTitle();
   adjustPictosOnMobile();
@@ -1384,29 +1283,24 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(protectTitle, 2000);
   setTimeout(adjustPictosOnMobile, 2000);
   setTimeout(fixSizeGuideLayout, 2000);
-
   // Observer continu
   setInterval(protectTitle, 1000);
   setInterval(adjustPictosOnMobile, 1000);
   setInterval(fixSizeGuideLayout, 1000);
-
   // Debug : surveiller les scroll automatiques non désirés
   if (isMobile()) {
     let isUserScrolling = false;
-
     window.addEventListener('scroll', function() {
       if (!isUserScrolling) {
         console.log('Scroll automatique détecté');
       }
     }, { passive: true });
-
     // Marquer quand l'utilisateur scroll intentionnellement
     document.addEventListener('touchstart', function() {
       isUserScrolling = true;
       setTimeout(() => { isUserScrolling = false; }, 300);
     }, { passive: true });
   }
-
   // Re-calculer lors du redimensionnement de la fenêtre
   window.addEventListener('resize', function() {
     setTimeout(() => {
