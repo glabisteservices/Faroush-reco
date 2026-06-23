@@ -486,7 +486,8 @@
         "draft_order_deposit_due_on_fulfillment": "سيتم {{depositAmount}} كامل المبلغ فور تأكيد طلبك. وسيُستحق المبلغ المتبقي بعد معالجة طلبك.",
         "order_deposit_due_on_receipt": "{{depositAmount}} مستحق اليوم. سيتم استحقاق المبلغ المتبقي لاحقًا.",
         "order_deposit_due_on_fixed_date": "{{depositAmount}} مستحق اليوم. الرصيد المتبقي مستحق في {{dueDate}} .",
-        "bank_account_label": "حساب بنكي"
+        "bank_account_label": "حساب بنكي",
+        "credit_or_debit_card_label": "دائن/مدين"
       },
       "thank_you": {
         "title": "شكرا لك على الشراء!",
@@ -715,7 +716,10 @@
         "order_status_confirmed_with_installments_payment_return": "يرجى استشارة البائع.",
         "order_status_confirmed_with_installments_payment_confirm": "سوف تتلقى قريبًا رسالة تأكيد بالبريد الإلكتروني تحتوي على رقم طلبك وتفاصيل خطة الدفع بالتقسيط.",
         "first_payment_complete": "تم إكمال الدفعة الأولى",
-        "in_store_purchase": "الشراء في المتجر"
+        "in_store_purchase": "الشراء في المتجر",
+        "order_updates_subscribe_to_email_notifications_failed": "لا يمكننا حفظ عنوان البريد الإلكتروني هذا للتحديثات. يرجى إعادة المحاولة أو استخدام عنوان بريد إلكتروني آخر.",
+        "checkout_again": "إعادة محاولة الدفع",
+        "cashback_notice": "ستتلقى استردادك النقدي بعد 30 يومًا"
       },
       "review": {
         "title": "تأكيد",
@@ -743,7 +747,17 @@
           "review_title_free_order": "التحقق من طلبك وإنهائه",
           "payment_method_saved_company_location": "احفظ الخريطة لهذا الموقع",
           "company_location": "موقع الشركة",
-          "change_company_location_link_label": "تغيير موقع الشركة"
+          "change_company_location_link_label": "تغيير موقع الشركة",
+          "pickup_items_at": {
+            "one": "سحب %{count} من المقالات إلى",
+            "other": "سحب %{count} مادة من",
+            "many": "سحب %{count} مادة من"
+          },
+          "ship_items_to": {
+            "one": "شحن %{count} سلعة إلى",
+            "other": "شحن %{count} من الأصناف إلى",
+            "many": "شحن %{count} من الأصناف إلى"
+          }
         },
         "block_title": "تحقق من معلوماتك",
         "checkout_a_different_way": "الدفع باستخدام طريقة دفع أخرى",
@@ -794,7 +808,8 @@
         "cookie_preferences": "ملفات تعريف الارتباط",
         "policy_label": "سياسة",
         "policies_label": "السياسات",
-        "select_policy_label": "اختر سياسة"
+        "select_policy_label": "اختر سياسة",
+        "terms_and_policies": "الشروط والأحكام والسياسات"
       },
       "wallets": {
         "errors": {
@@ -1069,7 +1084,8 @@
         "update_tip": "تغيير الطرف",
         "message": "شكراً جزيلاً !",
         "preset_label": "%{tip_percent} %",
-        "no_tip_label": "لا أحد"
+        "no_tip_label": "لا أحد",
+        "not_available_with_spi": "غير متاح مع الدفع بالتقسيط عبر Shop Pay"
       },
       "open_graph_meta_tag": {
         "title_with_products": {
@@ -1127,7 +1143,8 @@
       },
       "change_country": {
         "cart_updated_based_on_country": "لقد تم تحديث عربة التسوق الخاصة بك وفقًا لبلد التسليم الخاص بك.",
-        "cart_and_currency_updated_based_on_country": "لقد تم تحديث عربة التسوق والعملة الخاصة بك استنادًا إلى بلد الشحن الخاص بك."
+        "cart_and_currency_updated_based_on_country": "لقد تم تحديث عربة التسوق والعملة الخاصة بك استنادًا إلى بلد الشحن الخاص بك.",
+        "currency_updated_for_country": "تم تحديث العملة للدولة التالية: %{country}"
       },
       "subscriptions": {
         "recurring_totals": "%{total_price} لكل فترة %{interval}",
@@ -1337,6 +1354,16 @@
             "cta": "تحديث الصفحة"
           },
           "request_id": "معرف الطلب: {{requestId}}"
+        },
+        "embed_errors": {
+          "storefront_password_required": "هذا المتجر محمي بكلمة مرور",
+          "customer_account_required": "إنشاء حساب عميل إلزامي لإتمام عملية الدفع",
+          "cart_completed": "هذه الدفعة قد تمت بالفعل",
+          "invalid_cart": "السلة لم تعد صالحة",
+          "not_authorized": "فشل مصادقة الدفع. يرجى التحقق من بيانات اعتماد التطبيق الخاصة بك.",
+          "killswitch_enabled": "الدفع غير متاح مؤقتًا",
+          "policy_violation": "تعذّر إتمام عملية الدفع نظرًا للقيود المحددة في إعدادات السياسة",
+          "unrecoverable_failure": "تعذر تحميل صفحة الدفع. أعد المحاولة"
         }
       },
       "delivery_options": {
@@ -1877,7 +1904,14 @@
         "payment_method_not_available_with_payment_terms": "طريقة الدفع التي حددتها لم تعد متاحة، حيث أن الدفع لهذا الطلب أصبح الآن خاضعًا لشروط وأحكام {{paymentTerms}} .",
         "payment_method_not_available_with_fulfillment_terms": "طريقة الدفع التي حددتها لم تعد متاحة، حيث أصبح سداد هذا الطلب مستحقًا الآن عند معالجة الطلب.",
         "payment_method_not_available_with_fixed_terms": "طريقة الدفع التي حددتها لم تعد متاحة، حيث أن الدفع لهذا الطلب مستحق في تاريخ لاحق.",
-        "payment_method_not_available_with_review_requirement": "طريقة الدفع التي حددتها لم تعد متاحة لأن الدفع سيكون مطلوبًا بمجرد تأكيد الطلب."
+        "payment_method_not_available_with_review_requirement": "طريقة الدفع التي حددتها لم تعد متاحة لأن الدفع سيكون مطلوبًا بمجرد تأكيد الطلب.",
+        "validation_errors_banner": {
+          "heading": {
+            "one": "هناك {{count}} خطأ:",
+            "other": "يوجد {{count}} أخطاء:",
+            "many": "يوجد {{count}} أخطاء:"
+          }
+        }
       },
       "marketplaces": {
         "legal_notice": {
@@ -1920,12 +1954,105 @@
         "all_stores_far_away": {
           "title": "أقرب المواقع تبعد أكثر من %{distance}",
           "description": "حدد موقعًا أو %{ship_to_address_link}",
-          "ship_to_address_link": "أرسل إلى العنوان"
+          "ship_to_address_link": "أرسل إلى العنوان",
+          "change_location_link": "تغيير موقعك",
+          "title_with_specific_location": "أقرب موقع به السلعة التي طلبتها يبعد أكثر من %{distance} عن %{location}",
+          "title_with_item": {
+            "one": "أقرب موقع يحتوي على سِلعتك يبعد أكثر من %{distance} عن %{location}",
+            "other": "أقرب موقع يحتوي على سلعك يبعُد أكثر من %{distance} عن %{location}",
+            "many": "أقرب موقع يحتوي على سلعك يبعُد أكثر من %{distance} عن %{location}"
+          }
         },
         "selected_pickup_option_no_longer_available": {
           "title": "الموقع الذي قمت بتحديده مسبقًا لم يعد متاحًا.",
           "description": "حدد موقعًا جديدًا أو %{ship_to_address_link}",
           "ship_to_address_link": "أرسل إلى العنوان"
+        },
+        "pickup_unavailable_banner_body": {
+          "ship_items": "شحن بضائعكم",
+          "search_elsewhere": "ابحث في مكان آخر",
+          "ship_items_or_search_elsewhere": "%{ship_items} أو %{search_elsewhere}",
+          "search_elsewhere_standalone": "ابحث في مكان آخر"
+        },
+        "location_address_search_placeholder": "%{postal_code_label} أو العنوان",
+        "location_closest": "أقرب مكان به غرضك",
+        "toggle_multiple_locations": "+% {count} موقع إضافي",
+        "location_information_far_away": {
+          "one": "يوجد %{count} موقع يتوفر فيه منتجك",
+          "other": "توجد %{count} مواقع تحتوي على هذا المنتج",
+          "many": "توجد %{count} مواقع تحتوي على هذا المنتج"
+        },
+        "location_nearby": {
+          "one": "يوجد موقع واحد قريب لمنتجك\nيوجد موقعان قريبان لمنتجك\nيوجد %{count} مواقع قريبة لمنتجك\nتوجد %{count} مواقع قريبة لمنتجك",
+          "other": "يوجد %{count} موقع قريب به سلعتك",
+          "many": "يوجد %{count} موقع قريب به سلعتك"
+        },
+        "location_nearby_short": {
+          "one": "%{count} موقع قريب مع مقالك",
+          "other": "% {count} مواقع قريبة تتضمن السلعة التي تبحث عنها",
+          "many": "% {count} مواقع قريبة تتضمن السلعة التي تبحث عنها"
+        },
+        "location_far_away": {
+          "one": "%{count} موقع مع مقالك",
+          "other": "%{count} موقع متوفر به مقالك",
+          "many": "%{count} موقع متوفر به مقالك"
+        },
+        "toggle_more_locations": {
+          "one": "موقع آخر",
+          "other": "%{count} مواقع أخرى",
+          "many": "%{count} مواقع أخرى"
+        },
+        "pickup_unavailable_banner_title": {
+          "one": "لا يوجد موقع خاص بمنتجك",
+          "other": "لا يوجد موقع به موادك",
+          "many": "لا يوجد موقع به موادك"
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "one": "لا يوجد موقع في %{country} يطابق السلعة الخاصة بك",
+          "other": "لا يوجد موقع في/بـ %{country} يطابق أصنافك",
+          "many": "لا يوجد موقع في/بـ %{country} يطابق أصنافك"
+        },
+        "location_closest_one_item": "أقرب موقع يتوفر فيه منتجك",
+        "location_closest_other_items": "الموقع الأقرب الذي تتوفّر فيه بضائعكم",
+        "location_information_far_away_one_item": {
+          "one": "يوجد %{count} موقع يتضمن السلعة الخاصة بك",
+          "other": "يوجد %{count} موقع يتوفر فيه منتجك",
+          "many": "يوجد %{count} موقع يتوفر فيه منتجك"
+        },
+        "location_information_far_away_other_items": {
+          "one": "يوجد %{count} موقع يتضمن سلعك",
+          "other": "يوجد %{count} موقع يتضمن عناصرك",
+          "many": "يوجد %{count} موقع يتضمن عناصرك"
+        },
+        "location_nearby_one_item": {
+          "one": "يوجد %{count} موقع قريب متوفر لديه العنصر الذي تبحث عنه",
+          "other": "يوجد %{count} موقع قريب به سلعتك",
+          "many": "يوجد %{count} موقع قريب به سلعتك"
+        },
+        "location_nearby_other_items": {
+          "one": "يوجد %{count} موقع قريب به المنتجات المطلوبة.",
+          "other": "يوجد %{count} مواقع قريبة تحتوي على أغراضك",
+          "many": "يوجد %{count} مواقع قريبة تحتوي على أغراضك"
+        },
+        "location_nearby_short_one_item": {
+          "one": "%{count} موقع قريب يمتلك سلعتك",
+          "other": "%{count} موقعًا قريبًا يتوفر به منتجك",
+          "many": "%{count} موقعًا قريبًا يتوفر به منتجك"
+        },
+        "location_nearby_short_other_items": {
+          "one": "%{count} موقع قريب به المنتجات التي تبحث عنها",
+          "other": "%{count} موقعًا قريبًا بها عناصرك",
+          "many": "%{count} موقعًا قريبًا بها عناصرك"
+        },
+        "location_far_away_one_item": {
+          "one": "%{count} موقع متوفر فيه المنتج الخاص بك",
+          "other": "%{count} موقعًا يتوفر به العنصر الخاص بك",
+          "many": "%{count} موقعًا يتوفر به العنصر الخاص بك"
+        },
+        "location_far_away_other_items": {
+          "one": "%{count} مواقع تحتوي على عناصرك",
+          "other": "%{count} مواقع تتوفر فيها عناصرك",
+          "many": "%{count} مواقع تتوفر فيها عناصرك"
         }
       },
       "captcha": {
@@ -2000,7 +2127,9 @@
         "cancelled_payment": "تم إلغاء دفعتك. يرجى إعادة المحاولة أو استخدام طريقة دفع أخرى.",
         "currency": {
           "no_longer_supported": "لم تعد عملة المتجر مدعومة."
-        }
+        },
+        "installments_payment_method_incompatible": "لا يمكن استخدام طريقة الدفع المحددة للدفع على أقساط. يرجى اختيار طريقة دفع أخرى.",
+        "missing_cvc": "أدخل رمز الحماية"
       },
       "shipping_errors": {
         "shipping_method": "لقد تغيرت خيارات الشحن لطلبك. يُرجى مراجعة اختيارك.",
@@ -2023,7 +2152,8 @@
         "invalid_selected_address_with_update_link": "عنوان الشحن المحدد غير صالح. %{update_address_link} أو حدد عنوانًا مختلفًا",
         "unavailable_selected_address": "الشحن غير متاح للعنوان المحدد",
         "unavailable_selected_address_for_region": "الشحن غير متاح للمنطقة {{region}} . اختر عنوانًا آخر للمتابعة.",
-        "unavailable_addresses_only_countries": "يمكن شحن طلبك فقط إلى الدول التالية: {{countriesList}} . أضف عنوانًا جديدًا للمتابعة."
+        "unavailable_addresses_only_countries": "يمكن شحن طلبك فقط إلى الدول التالية: {{countriesList}} . أضف عنوانًا جديدًا للمتابعة.",
+        "unavailable_address_country": "الشحن غير متوفر في البلد الذي اخترته. يرجى استخدام عنوان آخر للمتابعة."
       },
       "alternative_payment_method_banner": {
         "express_checkout": "الدفع السريع",
@@ -2406,6 +2536,32 @@
         },
         "add_new_delivery_address": "إضافة عنوان توصيل جديد",
         "delivery_to": "التسليم في"
+      },
+      "split_delivery": {
+        "pickup_all_items": "اختر جميع العناصر",
+        "delivery_method": "وضع الشحن المجزأ",
+        "delivery_method_menu": "قائمة وضع التسليم المجزأ",
+        "items_for_pickup": "مقالات للسحب",
+        "inventory_issue_banner": {
+          "remove_items_or_ship": "%{ship_separately_link} أو %{remove_items_link}",
+          "remove_items_or_pickup": "%{pickup_in_store_link} أو %{remove_items_link}",
+          "heading": {
+            "cannot_be_picked_up": {
+              "one": "لا يمكن استرجاع %{count} مقال",
+              "other": "يتعذر استرداد %{count} من المقالات",
+              "many": "يتعذر استرداد %{count} من المقالات"
+            },
+            "cannot_be_shipped": {
+              "one": "لا يمكن شحن %{count} مقال",
+              "other": "لا يمكن شحن %{count} مقال",
+              "many": "لا يمكن شحن %{count} مقال"
+            }
+          },
+          "remove_item": {
+            "one": "سحب المقال",
+            "other": "إزالة العناصر"
+          }
+        }
       }
     },
     "pagination": {
