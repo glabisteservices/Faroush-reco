@@ -93,6 +93,9 @@
         },
         "pickup_unavailable_banner_title_with_country": {
           "many": "No shops available in %{country} with your items"
+        },
+        "discount_code_applied_count": {
+          "many": "Show %{count} discounts"
         }
       },
       "shipping": {
@@ -191,6 +194,17 @@
         },
         "discount_codes_removed_summary": {
           "many": "%{count} discount codes have been removed"
+        },
+        "crypto_payment_method": {
+          "cashback_descriptor": {
+            "many": "You will receive your cashback after %{count} days"
+          }
+        },
+        "discount_codes_modified_summary": {
+          "many": "%{count} discount codes have been modified"
+        },
+        "discount_codes_removed_or_modified_summary": {
+          "many": "%{count} discount codes have been removed or modified"
         }
       },
       "shipping_errors": {
@@ -340,6 +354,56 @@
         },
         "location_information_next": {
           "many": "There are %{count} locations with stock near you"
+        },
+        "all_stores_far_away": {
+          "title_with_item": {
+            "many": "The closest location with your items is over %{distance} from %{location}"
+          }
+        },
+        "location_information_far_away": {
+          "many": "There are %{count} locations with your item"
+        },
+        "location_nearby": {
+          "many": "There are %{count} nearby locations with your item"
+        },
+        "location_nearby_short": {
+          "many": "%{count} nearby locations with your item"
+        },
+        "location_far_away": {
+          "many": "%{count} locations with your item"
+        },
+        "toggle_more_locations": {
+          "many": "%{count} other locations"
+        },
+        "pickup_unavailable_banner_title": {
+          "many": "No locations with your items"
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "many": "No locations in %{country} with your items"
+        },
+        "location_information_far_away_one_item": {
+          "many": "There are %{count} locations with your item"
+        },
+        "location_information_far_away_other_items": {
+          "many": "There are %{count} locations with your items"
+        },
+        "location_nearby_one_item": {
+          "many": "There are %{count} locations nearby with your item"
+        },
+        "location_nearby_other_items": {
+          "many": "There are %{count} nearby locations with your items"
+        },
+        "location_nearby_short_one_item": {
+          "many": "%{count} nearby locations with your item"
+        },
+        "location_nearby_short_other_items": {
+          "many": "%{count} nearby locations with your items"
+        },
+        "location_far_away_one_item": {
+          "many": "%{count} locations with your item"
+        },
+        "location_far_away_other_items": {
+          "many": "%{count} locations with your items"
         }
       },
       "merchandise_unavailable_in_buyer_location": {
@@ -355,6 +419,56 @@
       "remote_merchandise_only": {
         "detail_item_label": {
           "many": "{{count}} articles"
+        }
+      },
+      "review": {
+        "blocks": {
+          "pickup_items_at": {
+            "many": "Removing %{count} items from"
+          },
+          "ship_items_to": {
+            "many": "Ship %{count} items to"
+          }
+        }
+      },
+      "notice_banner": {
+        "validation_errors_banner": {
+          "heading": {
+            "many": "There are {{count}} errors:"
+          }
+        }
+      },
+      "split_delivery": {
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "many": "Could not retrieve %{count} items"
+            },
+            "cannot_be_shipped": {
+              "many": "%{count} items cannot be shipped"
+            }
+          },
+          "remove_item": {
+            "many": "remove items"
+          },
+          "ship_separately": {
+            "many": "Send them separately"
+          },
+          "pick_them_up_in_store": {
+            "many": "Collect in store"
+          },
+          "remove_item_only": {
+            "many": "Remove items"
+          }
+        },
+        "pickup_items_count": {
+          "many": "Remove %{count} items"
+        },
+        "ship_items_count": {
+          "many": "Ship %{count} items"
+        },
+        "items_count": {
+          "many": "%{count} items"
         }
       }
     },
@@ -416,6 +530,12 @@
         "load_more_items": {
           "many": "Load {{count}} more items"
         }
+      },
+      "subtotal_label_with_quantity": {
+        "many": "Subtotal · {{count}} items"
+      },
+      "discount_order_stacking": {
+        "many": "Discounts on orders"
       }
     },
     "B2B": {
