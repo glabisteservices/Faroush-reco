@@ -15,7 +15,7 @@
         "image_desktop_KtF4e7": {
           "type": "image-desktop",
           "settings": {
-            "image_image": "shopify://shop_images/jkbxqs.png",
+            "image_image": "shopify://shop_images/ojnb.png",
             "heading_text": "Chaussures Barefoot Enfant",
             "paragraph_text": "Souples, zéro drop et respectueuses du pied",
             "button_text": "Les soldes",
@@ -27,10 +27,10 @@
         "image_mobile_MdqRqN": {
           "type": "image-mobile",
           "settings": {
-            "image_image": "shopify://shop_images/summer_sale-phone.png",
+            "image_image": "shopify://shop_images/4_3dcde61d-bdd5-4b21-982f-a12b03656efc.png",
             "heading_text": "Chaussures Barefoot Enfant",
             "paragraph_text": "Souples, zéro drop et respectueuses du pied",
-            "button_text": "Les Soldes",
+            "button_text": "LES BAKETS",
             "button_link": "shopify://collections/all",
             "text_color": "white",
             "button_color": "white"
