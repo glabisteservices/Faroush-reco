@@ -71,7 +71,7 @@
       ],
       "settings": {
         "show_shipping_info": true,
-        "shipping_text": "{{ product.metafields.custom.date_de_pre_order.value }}"
+        "shipping_text": "Livraison gratuite 1-2 jours ouvrés."
       }
     },
     "product_details_accordion_8fNf6L": {
