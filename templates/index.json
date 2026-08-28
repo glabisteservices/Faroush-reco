@@ -47,6 +47,18 @@
     "manual_products_d_hEiEXt": {
       "type": "manual_products_d",
       "blocks": {
+        "product_gLfMLw": {
+          "type": "product",
+          "settings": {
+            "product": "baskets-barefoot-enfant-mimi-siku-captain"
+          }
+        },
+        "product_q6bXit": {
+          "type": "product",
+          "settings": {
+            "product": "basket-barefoot-enfant-mimi-siku-ninja"
+          }
+        },
         "product_q8GiQd": {
           "type": "product",
           "settings": {
@@ -73,6 +85,8 @@
         }
       },
       "block_order": [
+        "product_gLfMLw",
+        "product_q6bXit",
         "product_q8GiQd",
         "product_e6WVkX",
         "product_3FBAtp",
