@@ -12,22 +12,28 @@
       <div
         class="cart_grid-wrapper"
         x-data="{
-          cartTotal: {{ cart.total_price }},
           loading: false,
-          formatMoney(cents) {
-         return new Intl.NumberFormat(undefined, { style: 'currency', currency: '{{ cart.currency.iso_code }}' }).format(cents / 100);
           updateQuantity(line, quantity) {
             this.loading = true;
-            fetch('/cart/change.js', {
+            fetch('{{ routes.cart_change_url }}', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ line: line, quantity: quantity })
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                line: line,
+                quantity: quantity,
+                sections: '{{ section.id }}',
+                sections_url: '{{ routes.cart_url }}'
+              })
             })
             .then(res => res.json())
             .then(cart => {
-              this.cartTotal = cart.total_price;
+              const markup = cart.sections && cart.sections['{{ section.id }}'];
+              const fresh = markup
+                ? new DOMParser().parseFromString(markup, 'text/html').querySelector('.cart_grid-wrapper')
+                : null;
+              if (!fresh) { window.location.reload(); return; }
+              this.$root.innerHTML = fresh.innerHTML;
               this.loading = false;
-              if (quantity === 0) window.location.reload();
             })
             .catch(() => { this.loading = false; });
           }
@@ -100,7 +106,7 @@
                     {% if cart.total_discounts > 0 %}
                     <div class="text-style-strikethrough">{{ cart.original_total_price | money }}</div>
                     {% endif %}
-                    <div class="heading-style-h3" x-text="formatMoney(cartTotal)">{{ cart.total_price | money }}</div>
+                    <div class="heading-style-h3">{{ cart.total_price | money }}</div>
                   </div>
                 </div>
                 {% if cart.total_discounts > 0 %}
