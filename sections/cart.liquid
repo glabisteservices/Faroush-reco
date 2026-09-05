@@ -15,7 +15,7 @@
           cartTotal: {{ cart.total_price }},
           loading: false,
           formatMoney(cents) {
-         return (cents / 100).toFixed(2).replace('.', ',') + '\u00a0€';
+         return new Intl.NumberFormat(undefined, { style: 'currency', currency: '{{ cart.currency.iso_code }}' }).format(cents / 100);
           updateQuantity(line, quantity) {
             this.loading = true;
             fetch('/cart/change.js', {
